@@ -110,12 +110,12 @@ The table is the simpler file. Each row consists of two parts, separated
 by an = sign, like the default one, reproduced below.
 
 ```
-Role=Edit, Add or\
-Served With=remove lines\
-First Flight=to fill\
-Strengths=out the\
-Weaknesses=table\
-Inspiration=like this.\
+Role=Edit, Add or
+Served With=remove lines
+First Flight=to fill
+Strengths=out the
+Weaknesses=table
+Inspiration=like this.
 ```
 
 The part to the left of the equal sign makes up the first column of the
