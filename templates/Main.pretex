@@ -1,0 +1,171 @@
+\documentclass{{book}}
+\usepackage[a4paper, margin= 0.5in]{{geometry}}
+\usepackage{{graphicx}}
+\usepackage[normalem]{{ulem}}
+\usepackage[T1]{{fontenc}}
+\usepackage{{nicematrix}}
+\usepackage{{tikz}}
+\usepackage{{multicol}}
+\usepackage{{hyperref}}
+\usepackage{{ragged2e}}
+\usepackage{{fontspec}}
+\usepackage{{nicefrac}}
+\usepackage{{datatool}}
+\usepackage{{fancyhdr}}
+\usepackage{{contour}}
+\usepackage{{subfiles}}
+\usepackage{{pdfpages}}
+
+\setromanfont{{Balthazar}}[
+  AutoFakeSlant=0.2,      
+  Ligatures={{TeX}},
+]
+\newfontfamily\Kochfont{{Koch Fette Deutsche Schrift}}
+
+\definecolor{{DarkGray}}{{gray}}{{0.4}}
+\definecolor{{MidGray}}{{gray}}{{0.5}}
+\def\slant#1#2{{%
+    \tikz[baseline=(X.base), xslant=tan(#1)]
+    \node[inner sep=0pt, xslant=tan(#1)](X){{#2}};%
+}}
+\DTLsetseparator{{=}}
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\contourlength{{2pt}} %how thick each copy is
+\contournumber{{20}}  %number of copies
+
+\pagestyle{{fancy}}
+\fancyhf{{}}
+\renewcommand{{\headrule}}{{}}
+\renewcommand{{\footrule}}{{}}
+
+\makeatletter
+\def\@seccntformat#1{{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section\else
+  \csname the#1\endcsname\quad
+  \fi}}
+\makeatother
+
+\fancyhead[CE]{{
+    \begin{{tikzpicture}}
+        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.4\paperwidth,0) {{}};
+        \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {{}};
+        \draw [line width=0.75mm] (-0.4\paperwidth,0) -- (0.4\paperwidth,0);
+        \foreach \x in {{
+                -0.38, -0.37, -0.36, -0.35, -0.34, -0.33, -0.32, -0.31, -0.3, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+            }}
+        \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
+        \node (text) at (0,-0.003\paperwidth) {{
+            \contour{{white}}{{\Kochfont\Large Flying Circu\$}}
+        }};
+    \end{{tikzpicture}}
+}}
+\fancyhead[CO]{{
+    \begin{{tikzpicture}}
+        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.4\paperwidth,0) {{}};
+        \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {{}};
+        \draw [line width=0.75mm] (-0.4\paperwidth,0) -- (0.4\paperwidth,0);
+        \foreach \x in {{
+                -0.38, -0.37, -0.36, -0.35, -0.34, -0.33, -0.32, -0.31, -0.3, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+            }}
+        \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
+        \node (text) at (0,-0.003\paperwidth) {{
+            \contour{{white}}{{\Kochfont\Large Flying Circu\$}}
+        }};
+    \end{{tikzpicture}}
+}}
+\fancyfoot[LE]{{
+    \hspace{{0.05\paperwidth}} {{\Kochfont\Large\thepage}} \hspace{{0.05\paperwidth}}
+    \begin{{tikzpicture}}
+        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.3\paperwidth,0) {{}};
+        \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {{}};
+        \draw [line width=0.75mm] (-0.3\paperwidth,0) -- (0.4\paperwidth,0);
+        \foreach \x in {{
+                -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+            }}
+        \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
+    \end{{tikzpicture}}
+}}
+
+\fancyfoot[RO]{{
+    \begin{{tikzpicture}}
+        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.3\paperwidth,0) {{}};
+        \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {{}};
+        \draw [line width=0.75mm] (-0.3\paperwidth,0) -- (0.4\paperwidth,0);
+        \foreach \x in {{
+                -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+            }}
+        \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
+    \end{{tikzpicture}}
+    \hspace{{0.05\paperwidth}} {{\Kochfont\Large\thepage}} \hspace{{0.05\paperwidth}}
+}}
+
+
+\renewcommand*\contentsname{{\Huge\Kochfont\centering Content\$}}
+
+\begin{{document}}
+\IfFileExists{{./images/cover.png}}{{\includepdf{{./images/cover.png}}}}{{
+\IfFileExists{{./images/cover.jpg}}{{\includepdf{{./images/cover.jpg}}}}{{
+\IfFileExists{{./images/cover.bmp}}{{\includepdf{{./images/cover.bmp}}}}{{
+    %No other options
+        }}
+    }}
+}}
+
+{{\let\cleardoublepage\clearpage
+\begin{{titlepage}}
+    \begin{{center}}
+        \begin{{tikzpicture}}
+            \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.4\paperwidth,0) {{}};
+            \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {{}};
+            \draw [line width=0.75mm] (-0.4\paperwidth,0) -- (0.4\paperwidth,0);
+            \foreach \x in {{
+                    -0.38, -0.37, -0.36, -0.35, -0.34, -0.33, -0.32, -0.31, -0.3, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+                }}
+            \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
+        \end{{tikzpicture}}
+
+        \vspace{{0.1\pageheight}}
+
+        {{
+            \Kochfont\fontsize{{75}}{{90}}\selectfont
+            Flying\\
+            \reflectbox{{\resizebox*{{3\width}}{{3\height}}{{\rotatebox{{90}}{{$\vartheta$}}}}}}
+            \Kochfont\fontsize{{75}}{{90}}\selectfont Circu\$
+            \resizebox*{{3\width}}{{3\height}}{{\rotatebox{{90}}{{$\vartheta$}}}}
+        }}
+
+        \normalfont\Huge
+        Aircraft Catalogue\\
+        {Title}\\
+        \resizebox*{{10\width}}{{3\height}}{{\rotatebox{{90}}{{$\varsigma$}}}}
+        \reflectbox{{\resizebox*{{10\width}}{{3\height}}{{\rotatebox{{90}}{{$\varsigma$}}}}}}
+
+        \vspace*{{\fill}}
+
+        {Authors}
+
+        \vspace*{{0.05\pageheight}}
+
+        \begin{{tikzpicture}}
+            \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.2\paperwidth,0) {{}};
+            \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.2\paperwidth,0) {{}};
+            \draw [line width=0.75mm] (-0.2\paperwidth,0) -- (0.2\paperwidth,0);
+            \foreach \x in {{
+                    -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19
+                }}
+            \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
+        \end{{tikzpicture}}
+    \end{{center}}
+\end{{titlepage}}
+}} %%% and here.
+\pagenumbering{{alph}}
+\huge
+\tableofcontents\thispagestyle{{fancy}}
+\newpage
+\pagenumbering{{arabic}}
+{SubfileIncludes}
+\end{{document}}
