@@ -15,6 +15,7 @@
 \usepackage{{contour}}
 \usepackage{{subfiles}}
 \usepackage{{pdfpages}}
+\usepackage{{pgf-pie}}
 
 \setromanfont{{Balthazar}}[
   AutoFakeSlant=0.2,      

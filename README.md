@@ -1,7 +1,6 @@
 ---
-author:
-- Tetragramm
-title: How to use the LaTeXCatalog Assistant
+author: Tetragramm
+title: How to use the LaTeX Catalog Assistant
 ---
 
 # Introduction
@@ -20,7 +19,7 @@ including packages, basically libraries of layout functions, that can
 make complicated things simpler.
 
 For example, mirroring text is not something that can be done in a
-normal text editor, but in LaTeX, it is simple. The text \|Mirror is
+normal text editor, but in LaTeX, it is simple. The text ɿoɿɿiM|Mirror is
 made using the code
 
     \reflectbox{Mirror}|Mirror
@@ -34,10 +33,10 @@ use described below in the section on aircraft descriptions.
 
 First, you must install the dependencies.
 
--   [[Python 3]{.underline}](https://www.python.org/) (Ensure the box
+-   [Python 3](https://www.python.org/) (Ensure the box
     "Add Python to environment variables" is checked)
 
--   [[TeX Live 2021]{.underline}](https://tug.org/texlive/)
+-   [TeX Live](https://tug.org/texlive/)
 
 -   The Fonts (provided)
 
@@ -55,8 +54,7 @@ That's it! That's all you need, besides your airplane designs.
 
 # How to Use
 
-1.  Go to the [[Plane
-    Builder]{.underline}](https://tetragramm.github.io/PlaneBuilder/index.html)
+1.  Go to the [Plane Builder](https://tetragramm.github.io/PlaneBuilder/index.html)
     and load each of your aircraft designs. Save them using the \"Save
     Catalog\" button at the bottom of the page, in this folder.
 
@@ -111,14 +109,14 @@ there is a \"PlaneName_desc.txt\" and a \"PlaneName_table.txt\".
 The table is the simpler file. Each row consists of two parts, separated
 by an = sign, like the default one, reproduced below.
 
-::: displayquote
-Role=Edit, Add or\
-Served With=remove lines\
-First Flight=to fill\
-Strengths=out the\
-Weaknesses=table\
-Inspiration=like this.\
-:::
+```
+Role=Edit, Add or
+Served With=remove lines
+First Flight=to fill
+Strengths=out the
+Weaknesses=table
+Inspiration=like this.
+```
 
 The part to the left of the equal sign makes up the first column of the
 plane's table. The part to the right, the second. Don't put more than
@@ -128,15 +126,15 @@ which were chosen because that's what the first catalog used.
 
 ## The Description
 
-The description file is actually a very simple LaTeXfile. It has a two
+The description file is actually a very simple LaTeX file. It has a two
 line header, and a one line footer. In-between the \\begin and \\end is
 the place where you put your aircraft descriptions. The text within it
 will be distributed evenly over the two columns of the page.
 
-Because it is a LaTeXdocument, you can easily use simple commands, and
+Because it is a LaTeX document, you can easily use simple commands, and
 with a little effort, more complex formatting. Check out the lovely
 tutorial at
-[[Overleaf]{.underline}](https://overleaf.com/learn/latex/Paragraphs_and_new_lines)
+[Overleaf](https://overleaf.com/learn/latex/Paragraphs_and_new_lines)
 for how to do even complicated formatting. For basic work, see the next
 section. When you make changes, you will notice they don't show up in
 the PDF. To see the results, you must compile the document. If you have
@@ -174,7 +172,7 @@ tiny, scriptsize, footnotesize, small, normalsize, large, Large, LARGE,
 huge, and Huge.
 
 Lists are easy, but there are several types. Check them out
-[[here.]{.underline}](https://www.overleaf.com/learn/latex/Lists)
+[here.](https://www.overleaf.com/learn/latex/Lists)
 
 # Troubleshooting
 
