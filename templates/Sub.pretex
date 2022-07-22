@@ -20,6 +20,7 @@
 \end{{tikzpicture}}
 \end{{center}}
 \par
+\phantomsection
 \addcontentsline{{toc}}{{section}}{{ {AcftName} }}
 \uline{{{{\huge \textcolor{{DarkGray}}{{{AcftName}}}}}
             \hfill

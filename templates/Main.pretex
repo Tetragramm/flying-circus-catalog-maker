@@ -21,7 +21,19 @@
   AutoFakeSlant=0.2,      
   Ligatures={{TeX}},
 ]
-\newfontfamily\Kochfont{{Koch Fette Deutsche Schrift}}
+\directlua
+{{
+ fonts.handlers.otf.addfeature
+  {{
+    name = "shuffle",
+    type = "multiple",
+    data =
+      {{
+          ["s"] = {{"$"}},
+      }},
+  }}
+}}
+\newfontfamily\Kochfont{{Koch Fette Deutsche Schrift}}[RawFeature=+shuffle]
 
 \definecolor{{DarkGray}}{{gray}}{{0.4}}
 \definecolor{{MidGray}}{{gray}}{{0.5}}
@@ -60,7 +72,7 @@
             }}
         \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
         \node (text) at (0,-0.003\paperwidth) {{
-            \contour{{white}}{{\Kochfont\Large Flying Circu\$}}
+            \contour{{white}}{{\Kochfont\Large Flying Circus}}
         }};
     \end{{tikzpicture}}
 }}
@@ -74,7 +86,7 @@
             }}
         \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
         \node (text) at (0,-0.003\paperwidth) {{
-            \contour{{white}}{{\Kochfont\Large Flying Circu\$}}
+            \contour{{white}}{{\Kochfont\Large Flying Circus}}
         }};
     \end{{tikzpicture}}
 }}
@@ -135,7 +147,7 @@
             \Kochfont\fontsize{{75}}{{90}}\selectfont
             Flying\\
             \reflectbox{{\resizebox*{{3\width}}{{3\height}}{{\rotatebox{{90}}{{$\vartheta$}}}}}}
-            \Kochfont\fontsize{{75}}{{90}}\selectfont Circu\$
+            \Kochfont\fontsize{{75}}{{90}}\selectfont Circus
             \resizebox*{{3\width}}{{3\height}}{{\rotatebox{{90}}{{$\vartheta$}}}}
         }}
 
