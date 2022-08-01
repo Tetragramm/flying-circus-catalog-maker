@@ -2,7 +2,7 @@ import sys
 import re
 import os
 if os.path.isfile('./AuthorInfo.text'):
-    with open('./AuthorInfo.text', 'r') as AI:
+    with open('./AuthorInfo.text', 'r', encoding='utf-8') as AI:
         Title = AI.readline()
         Title = Title.strip()
         if os.path.isfile(Title+'.tex'):

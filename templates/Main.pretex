@@ -16,11 +16,17 @@
 \usepackage{{subfiles}}
 \usepackage{{pdfpages}}
 \usepackage{{pgf-pie}}
+\usepackage{{newunicodechar}}
 
-\setromanfont{{Balthazar}}[
+\setmainfont{{Balthazar-Regular.ttf}}[
+  Path=./fonts/
   AutoFakeSlant=0.2,      
   Ligatures={{TeX}},
 ]
+\newfontfamily\CodeTwok{{Code2000.ttf}}[
+    Path=./fonts/,
+    ]
+\newunicodechar{{✣}}{{{{\CodeTwok \rotatebox[origin=c]{{45}}{{✣}}}}}}
 \directlua
 {{
  fonts.handlers.otf.addfeature
@@ -33,7 +39,10 @@
       }},
   }}
 }}
-\newfontfamily\Kochfont{{Koch Fette Deutsche Schrift}}[RawFeature=+shuffle]
+\newfontfamily\Kochfont{{Koch-Fraktur.ttf}}[
+    Path=./fonts/,
+    RawFeature=+shuffle,
+    ]
 
 \definecolor{{DarkGray}}{{gray}}{{0.4}}
 \definecolor{{MidGray}}{{gray}}{{0.5}}
