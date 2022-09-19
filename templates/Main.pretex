@@ -23,10 +23,10 @@
   AutoFakeSlant=0.2,      
   Ligatures={{TeX}},
 ]
-\newfontfamily\CodeTwok{{Code2000.ttf}}[
+\newfontfamily\MatDes{{materialdesignicons-webfont.ttf}}[
     Path=./fonts/,
     ]
-\newunicodechar{{✣}}{{{{\CodeTwok \rotatebox[origin=c]{{45}}{{✣}}}}}}
+\newunicodechar{{✣}}{{{{\MatDes\symbol{{F1A29}}}}}}
 \directlua
 {{
  fonts.handlers.otf.addfeature
