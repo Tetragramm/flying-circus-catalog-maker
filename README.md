@@ -33,9 +33,6 @@ use described below in the section on aircraft descriptions.
 
 First, you must install the dependencies.
 
--   [Python 3](https://www.python.org/) (Ensure the box
-    "Add Python to environment variables" is checked)
-
 -   [TeX Live](https://tug.org/texlive/)
 
 -   The Fonts (provided)
@@ -57,35 +54,7 @@ That's it! That's all you need, besides your airplane designs.
 1.  Go to the [Plane Builder](https://tetragramm.github.io/PlaneBuilder/index.html)
     and load each of your aircraft designs. Save them using the \"Save
     Catalog\" button at the bottom of the page, in this folder.
-
-2.  Rename those files so they are in the order you wish them in the
-    catalog. I suggest naming them something like \"A_First_Plane.txt\",
-    \"B_Second_Plane.txt\", ect.
-
-3.  Open each of them and change the line \"Insert Nickname Here\" to
-    the actual nickname of the plane.
-
-4.  Open a command prompt or powershell window in the folder. Hold the
-    Shift key and right click in the folder, and click the "Open command
-    prompt window here" or "Open PowerShell window here" options.
-
-5.  Alternatively, do this by searching in the start menu, then using
-    the command \"cd\" (change directory) to navigate to this folder.
-
-6.  Run the command
-
-                python .\Create.py
-
-    and when asked, type the Title and zero or more authors to include.
-    When you are done entering authors, just press enter on an empty
-    line.
-
-7.  Wait just a minute as a gigantic pile of text cascades down the
-    window. Don't worry, it doesn't matter.
-
-8.  Note the changes to the directory. Three new folders (desc, images,
-    subfiles), an AuthorInfo.text, some temporary files created by
-    LaTeX, and most importantly, a pdf file!
+2.  
 
 # What to Change
 
@@ -165,7 +134,7 @@ getting too wide, use "\\\\".
 Underline using "\\underline{Text to underline}"
 
 The font used in the plane catalogs does not have a bold face, but
-italics are "\\emph{Text to italicize}"
+italics are "\\textit{Text to italicize}"
 
 Font size can be changed by using "\\size" where the valid sizes are
 tiny, scriptsize, footnotesize, small, normalsize, large, Large, LARGE,
@@ -173,16 +142,3 @@ huge, and Huge.
 
 Lists are easy, but there are several types. Check them out
 [here.](https://www.overleaf.com/learn/latex/Lists)
-
-# Troubleshooting
-
-Observed problem: Running the python command just prints "Python", and
-nothing happens.\
-Solution: Run the python installer, choose modify installation, and
-ensure the "Add Python to environment variables" box is checked, then
-re-open the PowerShell or cmd window.\
-If the box is already checked, or if this does not resolve the problem,
-type "Get-Command python" If it shows the existence of a python.exe with
-version 0.0.0.0, navigate to the location given by Source, and delete
-it. This is the Windows Store's attempt to be helpful, but it is
-failing.
