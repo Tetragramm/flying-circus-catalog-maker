@@ -11,7 +11,30 @@
     Author Names
 }
 
-\FCPlane[Name = Bergziegel, Price = 8,
+\FCPlane[Nickname=\FrameDefault{Not Set}, %Box Text = {}, Image = {},
+    Name={Basic Biplane}, Price=11, Used=5, Upkeep=0,
+    Stats = {
+            Full Load & 1 & 99 & 3 & 8 & 13 \\
+            \nicefrac{1}{2}, Bombs & 1 & 100 & 4 & 6 & 13\\
+            Full Fuel & 2 & 100 & 5 & 6 & 14\\
+            Half Fuel & 2 & 100 & 5 & 5 & 14\\
+            Empty & - & 101 & - & 5 & 0\\
+        },
+    Vital Parts = {Controls, Fuel Tanks, Engine \#1, Oil Tank \#1, Landing Gear},
+    Crew = {Pilot},
+    Propulsion = {Dropoff 8, Reliability -1, Overspeed 18, Ideal Alt. 0-29, Fuel 12},
+    Aerodynamics = {Visibility -1, Stability -1, Energy Loss 3, Turn Bleed 1 (2)},
+    Survivability = {Toughness 8, Max Strain 34, Escape 2, Crash Safety -1, Flight Stress 2},
+    Armament = {5 Bomb Mass Externally. \\
+            Seat \#1: 1x Fixed MG ✣ fires [Forward] for 2 damage with 4/3/2/1 hits with 10 ammunition. [Jam 2/3, Rapid Fire, AP 1, Fully Accessible]\\
+            Rotary:  +1 to Dogfight! when turning right.\\
+        },Link = {http://localhost:8080/PlaneBuilder/index.html?json=AAEAjATAdArMCwAhAhgZwJYGMAEj0AcAbZAOwFNgBAK4WgMFsfqcZBfZoHQAlACwHsSybAFl+AF34AnAEbIArtgBaYMNgAcABl75gAJGABcYACBa1GkzYAIVhw4B-h8FsAoex8-ngPAUNES0nKKKmpaOsAAwADq0QCSPnyCwmKSsgrKqhraurRmlACCUABmxQACAAmMAJBUAPwAAbSNzU32bEwWTp5mHL1RXvb9PZ2mjLa2HhPskXaj3p6zNZaDy6ssAKCe1BZsFhxbXku0k+sD9gDgZ8fnZx7UkdR0+4w7++-3d19AA}
+]{
+
+
+}
+
+\FCPlane[Name = Bergziegel, Used = 8,
     Nickname = {Bring the bacon, and everything else!}, Upkeep = 2,
     Stats = {
             Full Load              & 1     & 87       & 1     & 6     & 11    \\

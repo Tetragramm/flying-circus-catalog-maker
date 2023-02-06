@@ -34,7 +34,7 @@
 }
 
 % Default paths for pictures
-\graphicspath{{./images/} {./templates/}}
+\graphicspath{{./images/}}
 
 % Start in alpha page numbering
 \pagenumbering{alph}
@@ -266,25 +266,6 @@
     Box Text/.store in = \FCBoxText,
     Box Loc/.store in = \FCBoxLoc,
     Facing Image/.store in = \FCFacingImage,
-    Name/.value required,
-    Price/.value required,
-    Nickname/.value required,
-    Upkeep/.value required,
-    Speed/.value required,
-    Torque/.value required,
-    Handling/.value required,
-    Armour/.value required,
-    Integrity/.value required,
-    Safety/.value required,
-    Reliability/.value required,
-    Fuel Uses/.value required,
-    Stress/.value required,
-    Size/.value required,
-    Cargo/.value required,
-    Crew/.value required,
-    Box Text/.value required,
-    Box Loc/.value required,
-    Facing Image/.value required,
 }
 % Actual command
 \newcommand{\FCVehicle}[2][]{%
@@ -344,14 +325,15 @@
  /FCPlane/.is family, FCPlane,
  % Here are the options that a user can pass
  default/.style = 
-    {Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Price = \FrameDefault{25},
+    {Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Price = \FrameDefault{25}, Used=\FrameDefault{12},
     Nickname = \FrameDefault{Buzz Off}, Upkeep = \FrameDefault{1},
     Stats = {Failure & 0 & 0 & 0 & 0 & 0 \\}, Vital Parts = \FrameDefault{Engine?}, Crew = \FrameDefault{Pilot?},
     Propulsion = {}, Aerodynamics = {}, Survivability = {}, Armament = {},
-    Image = {NoImageFound}, Link = {}, Box Loc = {south east}, Box Text = {},
+    Image = {Default.png}, Link = {}, Box Loc = {south east}, Box Text = {},
     },
     Name/.store in = \FCName,
     Price/.store in = \FCPrice,
+    Used/.store in = \FCUsed,
     Nickname/.store in = \FCNickname,
     Upkeep/.store in = \FCUpkeep,
     Stats/.store in = \FCStats,
@@ -390,7 +372,7 @@
     \addcontentsline{toc}{section}{ \FCName }
     \uline{{\huge \textcolor{DarkGray}{\FCName}}
             \hfill
-            \large \textcolor{MidGray}{\FCPrice þ Used}}
+            \large \textcolor{MidGray}{\ifdefempty{\FCPrice}{}{\FCPrice þ New\ifdefempty{\FCUsed}{}{,}} \ifdefempty{\FCUsed}{}{\FCUsed þ Used}}}
 
     \Large \textcolor{DarkGray}{\textit{``\FCNickname''}} \hfill \large \textcolor{MidGray}{\FCUpkeep þ Upkeep}
 
