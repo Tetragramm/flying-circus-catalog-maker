@@ -1,16 +1,25 @@
 \documentclass[twoside,headings,a4paper]{article}
 \usepackage{FlyingCircus}
+% Import FlyingCircus.sty
 
 \begin{document}
 
-\InsertFCCoverPicture{}
-
+% SEt the document title, and you can add text at the bottom of the page.
+% There's a \vfill pushing text to near the bottom, so you'll have to 
+% manually create spacing from that.  Another \vfill is a convenient distance.
 \InsertFCTitleAndTOC{Document Title}{
     Can add a Dedication
     \vfill
     Author Names
 }
 
+% The basic Aircraft function.
+% You have to set the top few manually, but everything below that
+% Can be copied from the Save Catalog button on the plane builder.
+% Things left unset generally appear as giant purple boxes, like the
+% Nickname does for this one.
+% There's also a `Box Loc' variable that can be any of the points on the image
+% north, north east, east... north west, center, ect.
 \FCPlane[Nickname=\FrameDefault{Not Set}, %Box Text = {}, Image = {},
     Name={Basic Biplane}, Price=11, Used=5, Upkeep=0,
     Stats = {
@@ -28,13 +37,23 @@
     Armament = {5 Bomb Mass Externally. \\
             Seat \#1: 1x Fixed MG ✣ fires [Forward] for 2 damage with 4/3/2/1 hits with 10 ammunition. [Jam 2/3, Rapid Fire, AP 1, Fully Accessible]\\
             Rotary:  +1 to Dogfight! when turning right.\\
-        },Link = {http://localhost:8080/PlaneBuilder/index.html?json=AAEAjATAdArMCwAhAhgZwJYGMAEj0AcAbZAOwFNgBAK4WgMFsfqcZBfZoHQAlACwHsSybAFl+AF34AnAEbIArtgBaYMNgAcABl75gAJGABcYACBa1GkzYAIVhw4B-h8FsAoex8-ngPAUNES0nKKKmpaOsAAwADq0QCSPnyCwmKSsgrKqhraurRmlACCUABmxQACAAmMAJBUAPwAAbSNzU32bEwWTp5mHL1RXvb9PZ2mjLa2HhPskXaj3p6zNZaDy6ssAKCe1BZsFhxbXku0k+sD9gDgZ8fnZx7UkdR0+4w7++-3d19AA}
+        },Link = {https://tetragramm.github.io/PlaneBuilder/index.html?json=AAEAjATAdArMCwAhAhgZwJYGMAEj0AcAbZAOwFNgBAK4WgMFsfqcZBfZoHQAlACwHsSybAFl+AF34AnAEbIArtgBaYMNgAcABl75gAJGABcYACBa1GkzYAIVhw4B-h8FsAoex8-ngPAUNES0nKKKmpaOsAAwADq0QCSPnyCwmKSsgrKqhraurRmlACCUABmxQACAAmMAJBUAPwAAbSNzU32bEwWTp5mHL1RXvb9PZ2mjLa2HhPskXaj3p6zNZaDy6ssAKCe1BZsFhxbXku0k+sD9gDgZ8fnZx7UkdR0+4w7++-3d19AA}
 ]{
-
-
+    % This is where you put the text that goes between the bottom of the stats
+    % And the Plane Builder Link.  It's a multi-column environment, so just use 
+    % \columnbreak to go to the second column, or let it wrap by itself automatically.
 }
 
-\FCPlane[Name = Bergziegel, Used = 8,
+%Note that Price is empty.  This plane cannot be bought new, for flavor reasons.
+% If Price, Used, or Both are empty, the appropriate sections will be missing.
+\FCPlane[Name = Bergziegel, Image = {Bergziegel_image.png},
+    Box Text = {
+            Role & Transport\\
+            First Flight & 1603\\
+            Strengths & Room for Everything\\
+            Weaknesses & Speed\\
+        },
+    Price = {}, Used = 8,
     Nickname = {Bring the bacon, and everything else!}, Upkeep = 2,
     Stats = {
             Full Load              & 1     & 87       & 1     & 6     & 11    \\
@@ -50,20 +69,12 @@
     Survivability = {Toughness 11, Max Strain 20, Escape 2, Crash Safety -1, Flight Stress 2},
     Armament = {Passengers: 5 cabin seats and 0 first class or stretcher seats.\\
             Large Cargo: Will fit a scout or fighter aircraft with the wings taken off.},
-    Image = {Bergziegel_image.png},
-    Box Text = {
-            Role & Transport\\
-            First Flight & 1603\\
-            Strengths & Room for Everything\\
-            Weaknesses & Speed\\
-        },
     Link = {https://tetragramm.github.io/PlaneBuilder/index.html?json=AAEAjATAdArMBQAhApgJwOYC8CWz3IBtgBAE4cgMHOspupDvIFBzSAgYADACUALAewB2AQwAEAWX4AXfqgBGwgK6iAWpFFgwABl4AHYABRgAXGABgVpZpUAENQDgjJ8AD-L4AGhgABGd--ljwCIhLSsgrKahAa2nrmAOrxAJJcfEJikjLySqrqmjr65BzEAIKFAAIABdQAkCQA-AAyADMAs-UAAeSdfgw0pK7uVAHkQemhWRG50flxRqYWZEvUtg4j5G6ePus7gWkhmeE5UTEFCcmpwRlh2ZF5sYXAxWXkVbUNLe1dwD3OfdQDTbDXYcch1XYQyGMRaQmFkUHAACYCEYAyRKLoMLhyzRzjhdQRO3BkJYflIAwYhPW-3MNDsEOxNEcOzhjKhdFx7P8QA}
 ]{
     After the end, helping communities get in touch with those around them and restoring trade was one of the most important things.  Into the gap stepped the Baron, with the Bergziegel design.  This innovative transport could move people and large cargos as far as it's escorts could keep it safe.
 
     One of the cheapest large transports you'll ever find, this steady, reliable plane has traveled the skies of Himmilgard for more than 15 years.
 
-    \vfill\null
     \columnbreak
 
     \begin{itemize}
@@ -72,10 +83,14 @@
         \item Trade cargo space for up to 15 additional passengers
         \item An extended fuselage can allow even huge cargos to be carried.
     \end{itemize}
-
-    \vfill\null
 }
 
+% This is an example Vehicle function
+% It always starts on the left page, because it forms
+% a double page spread, so count your pages.
+% The text is placed on the left page.
+% Anything below the stat block on the right page just goes after this function.
+% So, you know, just keep typing after the last bracket.
 \FCVehicle[Name = What's A Tank?, Price = 30000,
     Nickname=The Worst Tank, Upkeep=200,
     Speed = 0, Torque = -0, Handling = 0,
@@ -89,7 +104,8 @@
             Loader & Closed & -3 & -4 & \\
             x6 MG Crew & Closed & - & - & Guns?  Guns! \\
             Mechanic & Sealed & - & - & Engine Access \\
-        }, Box Text = {
+        },
+    Box Text = {
             Year Introduced: 2023\\
             Served With: Rolling Circus\\
             Engine: Lua\LaTeX\\

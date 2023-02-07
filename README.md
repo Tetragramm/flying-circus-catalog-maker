@@ -46,7 +46,7 @@ just right click on them and hit install.
 # What you Get
 
 In this folder are the fonts to install, some template files that are
-used during processing, and the Python scripts Create.py and Compile.py.
+used during processing, and the Python script Compile.py.
 That's it! That's all you need, besides your airplane designs.
 
 # How to Use
@@ -54,73 +54,19 @@ That's it! That's all you need, besides your airplane designs.
 1.  Go to the [Plane Builder](https://tetragramm.github.io/PlaneBuilder/index.html)
     and load each of your aircraft designs. Save them using the \"Save
     Catalog\" button at the bottom of the page, in this folder.
-2.  
+2.  Copy Main.tex and rename it the name of your catalog.
+3.  Replace the demo calls with the contents of your Saved Catalog files
+4.  Fill in the Nicknames, Box Text, and the content for each.
+5.  Either run the Compile.py or directly run the command line call inside it.  Be sure to run lualatex 3 times to ensure everything compiles nicely.
+1.  Open your PDF and enjoy.
 
 # What to Change
 
-The file named AuthorInfo.text has the first line as the Title, and each
-following line is an author's name. This way you don't need to re-enter
-those if you add additional planes and need to re-run Create.py
+You need to set the name of your catalog and the author information in the InsertFCTitleAndTOC function.
 
-The folder \"images\" contains the aircraft images, or placeholders. You
-can replace them with the images you want. The name of the file is what
-is important. For example you may replace \"Basic_Biplane_image.png\"
-with \"Basic_Biplane_image.jpg\" with no issues, but trying to use
-\"Basic_Biplane.png\" will not work. The images are automatically
-resized to fit, but you may wish to make or edit images into the
-preferred aspect ratio for better appearances.
+There are two airplanes and one ground vehicle in Main.tex, which need to be replaced with whatever you're actually putting in the catalog.
 
-The folder \"desc\" contains all of the text you edit. For each plane
-there is a \"PlaneName_desc.txt\" and a \"PlaneName_table.txt\".
-
-## The Table
-
-The table is the simpler file. Each row consists of two parts, separated
-by an = sign, like the default one, reproduced below.
-
-```
-Role=Edit, Add or
-Served With=remove lines
-First Flight=to fill
-Strengths=out the
-Weaknesses=table
-Inspiration=like this.
-```
-
-The part to the left of the equal sign makes up the first column of the
-plane's table. The part to the right, the second. Don't put more than
-one equal sign per row, or it won't work. You can add or remove rows to
-your heart's content, and are not limited to the ones already there,
-which were chosen because that's what the first catalog used.
-
-## The Description
-
-The description file is actually a very simple LaTeX file. It has a two
-line header, and a one line footer. In-between the \\begin and \\end is
-the place where you put your aircraft descriptions. The text within it
-will be distributed evenly over the two columns of the page.
-
-Because it is a LaTeX document, you can easily use simple commands, and
-with a little effort, more complex formatting. Check out the lovely
-tutorial at
-[Overleaf](https://overleaf.com/learn/latex/Paragraphs_and_new_lines)
-for how to do even complicated formatting. For basic work, see the next
-section. When you make changes, you will notice they don't show up in
-the PDF. To see the results, you must compile the document. If you have
-added, removed, re-ordered an airplane (Or changed values in the save
-file from the catalog), you will need to re-run the Create script.
-
-        python .\Create.py
-
-It will read in everything and spit out a fully compiled version without
-erasing any of the work you've done. It does replace the contents of
-subfiles, and of the main .tex file.
-
-If you have not altered the aircraft, simply run the Compile script.
-
-        python .\Compile.py
-
-Once complete, your file should be ready.
+If you're using Compile.py, you need to change the Title variable to the name of your tex file.
 
 # Basic LaTeX
 

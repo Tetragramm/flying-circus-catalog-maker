@@ -184,7 +184,10 @@
 
 % Custom command for creating title page and table of contents.
 \newcommand{\InsertFCTitleAndTOC}[2]{
-{\let\cleardoublepage\clearpage
+{
+    \InsertFCCoverPicture{}
+    
+    \let\cleardoublepage\clearpage
     \begin{titlepage}
         \thispagestyle{LancerFancyTOC}
         \begin{center}
@@ -408,9 +411,10 @@
     \end{NiceTabular}
     \par
     \begin{multicols}{2}
-            \large
-            \justify
-            #2
+        \raggedcolumns 
+        \large
+        \justify
+        #2
     \end{multicols}
 
     \vspace*{\fill}
