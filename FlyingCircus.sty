@@ -485,17 +485,7 @@
         \FCStrengths & \FCWeaknesses & \\
         \CodeAfter
         \begin{tikzpicture}[pos=3-3]
-                \pie[color=white, hide number, text=inside, sum=auto, rotate=90, change direction]{
-                    \FCVitalParts
-                % 1/,
-                % 1/-2 Guns,
-                % 1/-1 Speed,
-                % 1/-2 Guns,
-                % 1/-2 Guns,
-                % 1/-2 Guns,
-                % 1/-1 Speed,
-                % 1/Sinking
-                }
+            \expanded{\unexpanded{\pie[color=white, hide number, text=inside, sum=auto, rotate=90, change direction]}\expandafter}\expandafter{\FCVitalParts}
         \end{tikzpicture}
     \end{NiceTabular}
 
