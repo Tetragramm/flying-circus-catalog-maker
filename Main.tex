@@ -1,0 +1,154 @@
+\documentclass[twoside,headings,a4paper]{article}
+\usepackage{FlyingCircus}
+% Import FlyingCircus.sty
+
+\begin{document}
+
+% SEt the document title, and you can add text at the bottom of the page.
+% There's a \vfill pushing text to near the bottom, so you'll have to 
+% manually create spacing from that.  Another \vfill is a convenient distance.
+\InsertFCTitleAndTOC{Document Title}{
+    Can add a Dedication
+    \vfill
+    Author Names
+}
+
+% The basic Aircraft function.
+% You have to set the top few manually, but everything below that
+% Can be copied from the Save Catalog button on the plane builder.
+% Things left unset generally appear as giant purple boxes, like the
+% Nickname does for this one.
+% There's also a `Box Loc' variable that can be any of the points on the image
+% north, north east, east... north west, center, ect.
+\FCPlane[Nickname=\FrameDefault{Not Set}, %Box Text = {}, Image = {},
+    Name={Basic Biplane}, Price=11, Used=5, Upkeep=0,
+    Stats = {
+            Full Load & 1 & 99 & 3 & 8 & 13 \\
+            \nicefrac{1}{2}, Bombs & 1 & 100 & 4 & 6 & 13\\
+            Full Fuel & 2 & 100 & 5 & 6 & 14\\
+            Half Fuel & 2 & 100 & 5 & 5 & 14\\
+            Empty & - & 101 & - & 5 & 0\\
+        },
+    Vital Parts = {Controls, Fuel Tanks, Engine \#1, Oil Tank \#1, Landing Gear},
+    Crew = {Pilot},
+    Propulsion = {Dropoff 8, Reliability -1, Overspeed 18, Ideal Alt. 0-29, Fuel 12},
+    Aerodynamics = {Visibility -1, Stability -1, Energy Loss 3, Turn Bleed 1 (2)},
+    Survivability = {Toughness 8, Max Strain 34, Escape 2, Crash Safety -1, Flight Stress 2},
+    Armament = {5 Bomb Mass Externally. \\
+            Seat \#1: 1x Fixed MG ✣ fires [Forward] for 2 damage with 4/3/2/1 hits with 10 ammunition. [Jam 2/3, Rapid Fire, AP 1, Fully Accessible]\\
+            Rotary:  +1 to Dogfight! when turning right.\\
+        },Link = {https://tetragramm.github.io/PlaneBuilder/index.html?json=AAEAjATAdArMCwAhAhgZwJYGMAEj0AcAbZAOwFNgBAK4WgMFsfqcZBfZoHQAlACwHsSybAFl+AF34AnAEbIArtgBaYMNgAcABl75gAJGABcYACBa1GkzYAIVhw4B-h8FsAoex8-ngPAUNES0nKKKmpaOsAAwADq0QCSPnyCwmKSsgrKqhraurRmlACCUABmxQACAAmMAJBUAPwAAbSNzU32bEwWTp5mHL1RXvb9PZ2mjLa2HhPskXaj3p6zNZaDy6ssAKCe1BZsFhxbXku0k+sD9gDgZ8fnZx7UkdR0+4w7++-3d19AA}
+]{
+    % This is where you put the text that goes between the bottom of the stats
+    % And the Plane Builder Link.  It's a multi-column environment, so just use 
+    % \columnbreak to go to the second column, or let it wrap by itself automatically.
+}
+
+%Note that Price is empty.  This plane cannot be bought new, for flavor reasons.
+% If Price, Used, or Both are empty, the appropriate sections will be missing.
+\FCPlane[Name = Bergziegel, Image = {Bergziegel_image.png},
+    Box Text = {
+            Role & Transport\\
+            First Flight & 1603\\
+            Strengths & Room for Everything\\
+            Weaknesses & Speed\\
+        },
+    Price = {}, Used = 8,
+    Nickname = {Bring the bacon, and everything else!}, Upkeep = 2,
+    Stats = {
+            Full Load              & 1     & 87       & 1     & 6     & 11    \\
+            \nicefrac{1}{2}, Bombs & 2     & 90       & 1     & 4     & 11    \\
+            Full Fuel              & 2     & 91       & 1     & 4     & 11    \\
+            Half Fuel              & 2     & 92       & 1     & 3     & 11    \\
+            Empty                  & -     & 93       & -     & 3     & 0     \\
+        },
+    Vital Parts = {x2 Engines, x2 Oil Tanks, Controls, Fuel Tanks, Landing Gear},
+    Crew = {Pilot},
+    Propulsion = {Dropoff 6, Reliability -1/-1, Overspeed 20, Ideal Alt. 0-29, Fuel 7},
+    Aerodynamics = {Visibility -1, Stability 4, Energy Loss 10, Turn Bleed 1 (2)},
+    Survivability = {Toughness 11, Max Strain 20, Escape 2, Crash Safety -1, Flight Stress 2},
+    Armament = {Passengers: 5 cabin seats and 0 first class or stretcher seats.\\
+            Large Cargo: Will fit a scout or fighter aircraft with the wings taken off.},
+    Link = {https://tetragramm.github.io/PlaneBuilder/index.html?json=AAEAjATAdArMBQAhApgJwOYC8CWz3IBtgBAE4cgMHOspupDvIFBzSAgYADACUALAewB2AQwAEAWX4AXfqgBGwgK6iAWpFFgwABl4AHYABRgAXGABgVpZpUAENQDgjJ8AD-L4AGhgABGd--ljwCIhLSsgrKahAa2nrmAOrxAJJcfEJikjLySqrqmjr65BzEAIKFAAIABdQAkCQA-AAyADMAs-UAAeSdfgw0pK7uVAHkQemhWRG50flxRqYWZEvUtg4j5G6ePus7gWkhmeE5UTEFCcmpwRlh2ZF5sYXAxWXkVbUNLe1dwD3OfdQDTbDXYcch1XYQyGMRaQmFkUHAACYCEYAyRKLoMLhyzRzjhdQRO3BkJYflIAwYhPW-3MNDsEOxNEcOzhjKhdFx7P8QA}
+]{
+    After the end, helping communities get in touch with those around them and restoring trade was one of the most important things.  Into the gap stepped the Baron, with the Bergziegel design.  This innovative transport could move people and large cargos as far as it's escorts could keep it safe.
+
+    One of the cheapest large transports you'll ever find, this steady, reliable plane has traveled the skies of Himmilgard for more than 15 years.
+
+    \columnbreak
+
+    \begin{itemize}
+        \item The external nacelle engine mounts can be modified to use nearly any type of engine, or even asymmetric engines while still being stable and easy to fly.
+        \item Add extra fuel to travel long-distances.
+        \item Trade cargo space for up to 15 additional passengers
+        \item An extended fuselage can allow even huge cargos to be carried.
+    \end{itemize}
+}
+
+% This is an example Vehicle function
+% It always starts on the left page, because it forms
+% a double page spread, so count your pages.
+% The text is placed on the left page.
+% Anything below the stat block on the right page just goes after this function.
+% So, you know, just keep typing after the last bracket.
+\FCVehicle[Name = What's A Tank?, Price = 30000,
+    Nickname=The Worst Tank, Upkeep=200,
+    Speed = 0, Torque = -0, Handling = 0,
+    Armour = 0/0/0, Integrity = 0, Safety = 0,
+    Reliability = 0, Fuel Uses = 0, %Stress = 1,
+    Size = Huge Size, Cargo = Some Tiny Cargo,
+    Crew = {
+            Driver & Closed & 0 & 1 & Hatch \\
+            Commander & Closed & 2 & 3 & Hatch \\
+            Gunner & Closed & -1 & -2 & Big Gun \\
+            Loader & Closed & -3 & -4 & \\
+            x6 MG Crew & Closed & - & - & Guns?  Guns! \\
+            Mechanic & Sealed & - & - & Engine Access \\
+        },
+    Box Text = {
+            Year Introduced: 2023\\
+            Served With: Rolling Circus\\
+            Engine: Lua\LaTeX\\
+            Strengths: Sophisticated\\
+            Weaknesses: Complicated\\
+            Inspiration: Erika Chappell\\
+        },
+    Facing Image = Wandelburg.png
+]{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat commodo sed egestas egestas fringilla. Diam vel quam elementum pulvinar etiam non quam lacus suspendisse. Eget dolor morbi non arcu risus. Quis viverra nibh cras pulvinar mattis nunc sed blandit. Elementum tempus egestas sed sed risus pretium quam. Feugiat in ante metus dictum at tempor commodo ullamcorper a. Ultricies mi eget mauris pharetra et. Elementum nisi quis eleifend quam. Posuere urna nec tincidunt praesent semper feugiat. Amet nisl purus in mollis nunc sed. Sed arcu non odio euismod lacinia at quis. Mauris in aliquam sem fringilla ut morbi. Enim neque volutpat ac tincidunt vitae semper. Amet volutpat consequat mauris nunc. Fermentum posuere urna nec tincidunt praesent. In nulla posuere sollicitudin aliquam.
+
+    Faucibus purus in massa tempor nec feugiat nisl pretium fusce. Morbi enim nunc faucibus a pellentesque sit amet. Et netus et malesuada fames ac turpis egestas. Mattis rhoncus urna neque viverra justo nec ultrices. Nunc eget lorem dolor sed viverra. Posuere lorem ipsum dolor sit amet consectetur adipiscing elit duis. Condimentum id venenatis a condimentum vitae sapien pellentesque. Cursus eget nunc scelerisque viverra. Consectetur purus ut faucibus pulvinar elementum integer. Non tellus orci ac auctor augue mauris augue neque. Est lorem ipsum dolor sit amet consectetur adipiscing. Cursus mattis molestie a iaculis at erat pellentesque adipiscing commodo.
+}
+
+\FCShip[Name = {\textit{Republic}-class Battleship}, Notes = {750 Crew},
+    Speed = 3, Handling = 5, Hardness = 16, Soak = 1,
+    Strengths = {HE, Incendiary}, Weaknesses = {AP},
+    Vital Parts = {
+            1/,
+            1/-2 Guns,
+            1/-1 Speed,
+            1/-2 Guns,
+            1/-2 Guns,
+            1/-2 Guns,
+            1/-1 Speed,
+            1/Sinking
+        },
+    Armament = {
+            x6 Med. Howitzer & x4 & x4 & x4 & x6 & - \\
+            x6 Pom-Pom Guns & x4 & x3 & x3 & x2 & x6 \\
+            x4 WMG & - & x2 & x2 & - & - \\
+            x4 Torpedo Tube & x4 & - & - & - & - \\
+        },
+    Image = {Default.png}
+]{
+    The pinnacle of Macchi shipbuilding, the Republic-class was by all
+    measures the most advanced ship in the world. Macchi's battleships
+    existed primarily to deter any other power from pursuing control of the
+    seas. Though feared, these expensive ships were only rarely deployed
+    because of the risk of being sunk by aircraft, though they completely
+    dominated any engagement they joined. Some of those that survived
+    offshore have become fortified towns.
+}
+
+
+\end{document}
