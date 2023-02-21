@@ -17,15 +17,15 @@
 \RequirePackage{xparse}
 \RequirePackage{pgfkeys}
 \RequirePackage[skins]{tcolorbox}
-\RequirePackage[indent=0pt]{parskip}
 \RequirePackage{etoc}
 \RequirePackage{pgf-pie}
+\RequirePackage{parskip}
 
 % Set up the link styles, shouldn't need to modify
 \hypersetup{
     pdfinfo={
-        PageMode=UseOutlines, 
-        Creator=Tetragramm
+            PageMode=UseOutlines,
+            Creator=Tetragramm
         },
     final,
     hidelinks,
@@ -42,14 +42,14 @@
 %%Load Fonts ==========================
 %Load Normal Font
 \setmainfont{Balthazar-Regular.ttf}[
-  Path=./fonts/,
-  AutoFakeSlant=0.2,
-  Ligatures={{TeX}},
+    Path=./fonts/,
+    AutoFakeSlant=0.2,
+    Ligatures={{TeX}},
 ]
 %Load icon font for propeller symbol
 \newfontfamily\matdes{materialdesignicons-webfont.ttf}[
     Path=./fonts/,
-    ]
+]
 %This is the propeller symbol
 \newunicodechar{✣}{{\matdes \symbol{"F1A29}}}
 
@@ -58,7 +58,7 @@
     Path=./fonts/,
     AutoFakeSlant=0.2,
     RawFeature=+shuffle,
-    ]
+]
 
 % Define colors =====================
 \definecolor{DarkGray}{gray}{0.4}
@@ -70,6 +70,9 @@
 \emergencystretch=\maxdimen
 \hyphenpenalty=10000
 \hbadness=10000
+\setlength{\parindent}{0pt}
+\setlength{\RaggedRightParindent}{\parindent}
+
 
 % Constants for the fancy outlined logo
 \contourlength{2pt} %how thick each copy is
@@ -83,9 +86,9 @@
 
 \makeatletter
 \def\@seccntformat#1{%
-  \expandafter\ifx\csname c@#1\endcsname\c@section\else
-  \csname the#1\endcsname\quad
-  \fi}
+    \expandafter\ifx\csname c@#1\endcsname\c@section\else
+        \csname the#1\endcsname\quad
+    \fi}
 \makeatother
 
 \fancyhead[CE]{
@@ -143,31 +146,31 @@
 }
 
 \fancypagestyle{LancerFancyTOC}{%
-\fancyhf{}
-\renewcommand{\headrule}{}
-\renewcommand{\footrule}{}
-\fancyhead[C]{%The Left style header is on Odd pages
-    \begin{tikzpicture}[remember picture, overlay]
-        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.4\paperwidth,0) {};
-        \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {};
-        \draw [line width=0.75mm] (-0.4\paperwidth,0) -- (0.4\paperwidth,0);
-        \foreach \x in {
-                -0.38, -0.37, -0.36, -0.35, -0.34, -0.33, -0.32, -0.31, -0.3, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
-            }
-        \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
-    \end{tikzpicture}
-}
-\fancyfoot[C]{%The Left style footer is on Odd pages
-    \begin{tikzpicture}
-        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.2\paperwidth,0) {};
-        \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.2\paperwidth,0) {};
-        \draw [line width=0.75mm] (-0.2\paperwidth,0) -- (0.2\paperwidth,0);
-        \foreach \x in {
-                -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19
-            }
-        \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
-    \end{tikzpicture}
-}
+    \fancyhf{}
+    \renewcommand{\headrule}{}
+    \renewcommand{\footrule}{}
+    \fancyhead[C]{%The Left style header is on Odd pages
+        \begin{tikzpicture}[remember picture, overlay]
+            \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.4\paperwidth,0) {};
+            \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {};
+            \draw [line width=0.75mm] (-0.4\paperwidth,0) -- (0.4\paperwidth,0);
+            \foreach \x in {
+                    -0.38, -0.37, -0.36, -0.35, -0.34, -0.33, -0.32, -0.31, -0.3, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+                }
+            \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
+        \end{tikzpicture}
+    }
+    \fancyfoot[C]{%The Left style footer is on Odd pages
+        \begin{tikzpicture}
+            \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.2\paperwidth,0) {};
+            \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.2\paperwidth,0) {};
+            \draw [line width=0.75mm] (-0.2\paperwidth,0) -- (0.2\paperwidth,0);
+            \foreach \x in {
+                    -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19
+                }
+            \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
+        \end{tikzpicture}
+    }
 }
 
 \makeatother
@@ -184,51 +187,52 @@
 
 % Custom command for creating title page and table of contents.
 \newcommand{\InsertFCTitleAndTOC}[2]{
-{
-    \InsertFCCoverPicture{}
-    
-    \let\cleardoublepage\clearpage
-    \begin{titlepage}
-        \thispagestyle{LancerFancyTOC}
-        \begin{center}
+    {
+            \InsertFCCoverPicture{}
 
-            \vspace{0.1\pageheight}
+            \let\cleardoublepage\clearpage
+            \begin{titlepage}
+                \thispagestyle{LancerFancyTOC}
+                \begin{center}
 
-            {
-                \Kochfont\fontsize{75}{90}\selectfont
-                Flying\\
-                \reflectbox{\resizebox*{3\width}{3\height}{\rotatebox{90}{$\vartheta$}}}
-                \Kochfont\fontsize{75}{90}\selectfont Circus
-                \resizebox*{3\width}{3\height}{\rotatebox{90}{$\vartheta$}}
-            }
+                    \vspace{0.1\pageheight}
 
-            \normalfont\Huge
-            Aircraft Catalogue\\
-            #1\\
-            \resizebox*{10\width}{3\height}{\rotatebox{90}{$\varsigma$}}
-            \reflectbox{\resizebox*{10\width}{3\height}{\rotatebox{90}{$\varsigma$}}}
+                    {
+                        \Kochfont\fontsize{75}{90}\selectfont
+                        Flying\\
+                        \reflectbox{\resizebox*{3\width}{3\height}{\rotatebox{90}{$\vartheta$}}}
+                        \Kochfont\fontsize{75}{90}\selectfont Circus
+                        \resizebox*{3\width}{3\height}{\rotatebox{90}{$\vartheta$}}
+                    }
 
-            \vspace*{\fill}
+                    \normalfont\Huge
+                    Aircraft Catalogue\\
+                    #1\\
+                    \resizebox*{10\width}{3\height}{\rotatebox{90}{$\varsigma$}}
+                    \reflectbox{\resizebox*{10\width}{3\height}{\rotatebox{90}{$\varsigma$}}}
 
-            #2\\
+                    \vspace*{\fill}
 
-            \vspace*{0.05\pageheight}
-        \end{center}
-    \end{titlepage}
-} %%% and here.
+                    #2\\
+
+                    \vspace*{0.05\pageheight}
+                \end{center}
+            \end{titlepage}
+        } %%% and here.
 
 
-\begin{center}
-\Huge\Kochfont Contents
-\end{center}
+    \begin{center}
+        \Huge\Kochfont Contents
+    \end{center}
 
-\vspace{1cm}
+    \vspace{1cm}
 
-\tableofcontents
+    \tableofcontents
 
-\thispagestyle{fancy}
-\newpage
-\pagenumbering{arabic}
+    \thispagestyle{fancy}
+    \newpage
+    \pagenumbering{arabic}
+    \setlength{\parindent}{0pt}
 }
 
 %%%%% Command for Making a Flying Circus Vehicle %%%%
@@ -237,18 +241,18 @@
 % Define the keys for \Lancer Frame
 % The \FrameDefalt shows when things aren't set.
 \pgfkeys{
- /FCVehicle/.is family, FCVehicle,
- % Here are the options that a user can pass
- default/.style = 
-    {Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Price = \FrameDefault{25},
-    Nickname = \FrameDefault{Buzz Off}, Upkeep = \FrameDefault{1},
-    Speed = \FrameDefault{3}, Torque = \FrameDefault{+1}, Handling = \FrameDefault{15},
-    Armour = \FrameDefault{2/2/1}, Integrity = \FrameDefault{20}, Safety = \FrameDefault{2},
-    Reliability = \FrameDefault{0}, Fuel Uses = \FrameDefault{10}, Stress = \FrameDefault{1},
-    Size = \FrameDefault{Large Size}, Cargo = \FrameDefault{Tiny Cargo},
-    Crew = {}, Box Text = {}, Box Loc = {north east},
-    Facing Image = {NoImageFound}
-    },
+    /FCVehicle/.is family, FCVehicle,
+    % Here are the options that a user can pass
+    default/.style =
+        {Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Price = \FrameDefault{25},
+            Nickname = \FrameDefault{Buzz Off}, Upkeep = \FrameDefault{1},
+            Speed = \FrameDefault{3}, Torque = \FrameDefault{+1}, Handling = \FrameDefault{15},
+            Armour = \FrameDefault{2/2/1}, Integrity = \FrameDefault{20}, Safety = \FrameDefault{2},
+            Reliability = \FrameDefault{0}, Fuel Uses = \FrameDefault{10}, Stress = \FrameDefault{1},
+            Size = \FrameDefault{Large Size}, Cargo = \FrameDefault{Tiny Cargo},
+            Crew = {}, Box Text = {}, Box Loc = {north east},
+            Facing Image = {NoImageFound}
+        },
     Name/.store in = \FCName,
     Name/.value required,
     Price/.store in = \FCPrice,
@@ -283,57 +287,63 @@
         };
         \ifdefempty{\FCBoxText}{}{
             \node[draw,fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=1cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
-                    \large
-                    \begin{NiceTabular}{l}[hvlines]
+                \large
+                \begin{NiceTabular}{l}[hvlines]
                     \FCBoxText
-                    \end{NiceTabular}
-        };}
+                \end{NiceTabular}
+            };}
     \end{tikzpicture}
 
-    \phantom{Blah}
     \vspace{0.62\paperwidth}
 
     \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
     \uline{{\huge \textcolor{DarkGray}{\FCName}}\hfill}
     \Large\normalfont\noindent\justify
+    \setlength{\parindent}{0pt}
     #2
     \clearpage
     \begin{center}
         \parbox[l]{0.6\textwidth}{\uline{\Huge\FCName\hfill\Large\FCPrice þ} \\ \FCNickname\hfill Upkeep \FCUpkeep þ}
         \begin{NiceTabular}{cccccc}[hvlines, columns-width=0.1\textwidth]
-            \Block{1-2}{Speed} & & \Block{1-2}{Torque} &  & \Block{1-2}{Handling} &  \\
-            \Block{1-2}{\FCSpeed} & & \Block{1-2}{\FCTorque} & & \Block{1-2}{\FCHandling} \\
-            \Block{1-2}{Armour} & & \Block{1-2}{Integrity} &  & \Block{1-2}{Safety} &  \\
-            \Block{1-2}{\FCArmour} &  & \Block{1-2}{\FCIntegrity} &  & \Block{1-2}{\FCSafety} &  \\
-            \Block{1-2}{Reliability} &  & \Block{1-2}{Fuel Uses} &  & \Block{1-2}{Stress} &  \\
-            \Block{1-2}{\FCReliability} &  & \Block{1-2}{\FCFuelUses} &  & \Block{1-2}{\FCStress} &  \\
-            \Block{1-3}{\FCSize} & & & \Block{1-3}{\FCCargo} & & \\
+            \Block{1-2}{Speed}          &  & \Block{1-2}{Torque}       &                       & \Block{1-2}{Handling}    & \\
+            \Block{1-2}{\FCSpeed}       &  & \Block{1-2}{\FCTorque}    &                       & \Block{1-2}{\FCHandling}   \\
+            \Block{1-2}{Armour}         &  & \Block{1-2}{Integrity}    &                       & \Block{1-2}{Safety}      & \\
+            \Block{1-2}{\FCArmour}      &  & \Block{1-2}{\FCIntegrity} &                       & \Block{1-2}{\FCSafety}   & \\
+            \Block{1-2}{Reliability}    &  & \Block{1-2}{Fuel Uses}    &                       & \Block{1-2}{Stress}      & \\
+            \Block{1-2}{\FCReliability} &  & \Block{1-2}{\FCFuelUses}  &                       & \Block{1-2}{\FCStress}   & \\
+            \Block{1-3}{\FCSize}        &  &                           & \Block{1-3}{\FCCargo} &                          & \\
         \end{NiceTabular}
-        
-        \vspace{1cm}
+
+        \vspace{0.5cm}
 
         {\LARGE\Kochfont Crew}
 
         \begin{NiceTabular}[width=\textwidth]{lcccX}[hvlines, corners]
-             & Type & Vis. & Escape & Notes\\
+             & Type & Vis. & Escape & Notes \\
             \FCCrew
         \end{NiceTabular}
+        \vspace{0.5cm}
     \end{center}
 }
 
-% Define the keys for \Lancer Frame
+% Define the keys for \FCPlane
 % The \FrameDefalt shows when things aren't set.
 \pgfkeys{
- /FCPlane/.is family, FCPlane,
- % Here are the options that a user can pass
- default/.style = 
-    {Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Price = \FrameDefault{25}, Used=\FrameDefault{12},
-    Nickname = \FrameDefault{Buzz Off}, Upkeep = \FrameDefault{1},
-    Stats = {Failure & 0 & 0 & 0 & 0 & 0 \\}, Vital Parts = \FrameDefault{Engine?}, Crew = \FrameDefault{Pilot?},
-    Propulsion = {}, Aerodynamics = {}, Survivability = {}, Armament = {},
-    Image = {Default.png}, Link = {}, Box Loc = {south east}, Box Text = {},
-    },
+    % This is a "variable family"  Doesn't matter, just set to your function name.
+    /FCPlane/.is family, FCPlane,
+    % Here are the keys that a user can pass
+    % First set default values.  The ones with \FrameDefault{} get lit up in bright purple when they're left as default
+    default/.style =
+        {Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Price = \FrameDefault{25}, Used=\FrameDefault{12},
+            Nickname = \FrameDefault{Buzz Off}, Upkeep = \FrameDefault{1},
+            Stats = {Failure & 0 & 0 & 0 & 0 & 0 \\}, Vital Parts = \FrameDefault{Engine?}, Crew = \FrameDefault{Pilot?},
+            Propulsion = {}, Aerodynamics = {}, Survivability = {}, Armament = {},
+            Image = {Default.png}, Link = {}, Box Loc = {south east}, Box Text = {},
+        },
+    % Then there's the list of /.store in = 
+    % This is how you translate the names in the function call into LaTeX macros
+    % You need one for every key you're going to actually use
     Name/.store in = \FCName,
     Price/.store in = \FCPrice,
     Used/.store in = \FCUsed,
@@ -351,96 +361,111 @@
     Box Loc/.store in = \FCBoxLoc,
     Box Text/.store in = \FCBoxText,
 }
+% Define a new command named FCPlane, with 2 arguments, the keys, and a a second one
 \newcommand{\FCPlane}[2][]{
-    \clearpage
-    \pgfkeys{FCPlane, default, #1}%
+    \clearpage % Break the page, clear any figures, ect ect.  Basically, go to next page and continue
+    \pgfkeys{FCPlane, default, #1}% Load the keys in the FCPlane family, 
+    % then the default values, then the values passed in by the first argument
 
+    % Create a picture across the top of the page using \FCImage, 
+    % using the min of the width of the text, or 1/3 the page vertically to set the size
+    % Also, if the variable \FCBoxText was filled, make a box in the corner \FCBoxLoc with that text inside a table.
+    % Can remove the bit about NiceTabular to make it just a box of text.  See FCVehicle for that.
     \begin{center}
         \begin{tikzpicture}
-                \node (image) at (0,0) {
-                        \includegraphics[width=\textwidth, height=0.33\textheight, keepaspectratio]{\FCImage}
-                };
+            \node (image) at (0,0) {
+                \includegraphics[width=\textwidth, height=0.33\textheight, keepaspectratio]{\FCImage}
+            };
 
-                \ifdefempty{\FCBoxText}{}{
-                    \node[draw,fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt,anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
-                            \large
-                            \begin{NiceTabular}{cc}[hvlines]
-                                \FCBoxText
-                            \end{NiceTabular}};
-                }
+            \ifdefempty{\FCBoxText}{}{
+                \node[draw,fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt,anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
+                    \large
+                    \begin{NiceTabular}{cc}[hvlines]
+                        \FCBoxText
+                    \end{NiceTabular}};
+            }
         \end{tikzpicture}
     \end{center}
+    % Some spacing, then add a section entry to the table of contents with the value \FCName
+    % \phantomsection puts a "break" so it knows to actually go there.  Totally invisible, but 
+    % when you click on the page number in the table of contents, this is the spot it goes.
     \par
     \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
+    % Visible text.  This says Underline all of { \FCName (but huge and dark grey) and all available horizontal space and a messy bit of text after it.}
+    % So the name is on the left, and the rest of the text is pushed all the way right by hfill, and it's all underlined.  Just replace the messy bit of 
+    % text with the price.  FCPlane can have both, either, or neither of new and used prices.
     \uline{{\huge \textcolor{DarkGray}{\FCName}}
-            \hfill
-            \large \textcolor{MidGray}{\ifdefempty{\FCPrice}{}{\FCPrice þ New\ifdefempty{\FCUsed}{}{,}} \ifdefempty{\FCUsed}{}{\FCUsed þ Used}}}
+        \hfill
+        \large \textcolor{MidGray}{\ifdefempty{\FCPrice}{}{\FCPrice þ New\ifdefempty{\FCUsed}{}{,}} \ifdefempty{\FCUsed}{}{\FCUsed þ Used}}}
 
+    % More text right under the line, again with hfill to pus the rest right
     \Large \textcolor{DarkGray}{\textit{``\FCNickname''}} \hfill \large \textcolor{MidGray}{\FCUpkeep þ Upkeep}
 
     \large
     \begin{NiceTabular}{ccccc}[first-row, first-col, hvlines, rules/width=1pt]
-             & Boost & Handling & Climb & Stall & Speed \\
-            \FCStats
+         & Boost & Handling & Climb & Stall & Speed \\
+        \FCStats
     \end{NiceTabular}
     \quad
     \begin{NiceTabular}{c}[first-row, hvlines, rules/width=1pt]
-            Vital Parts\\
-            \parbox{0.4\textwidth}{
-                    \centering
-                    \vspace{.5\baselineskip}
-            \FCVitalParts \\
+        Vital Parts   \\
+        \parbox{0.4\textwidth}{
+            \centering
+            \vspace{.5\baselineskip}
+        \FCVitalParts \\
             \FCCrew
-                    \vspace{.5\baselineskip}
-            }
+            \vspace{.5\baselineskip}
+        }
     \end{NiceTabular}
     \par
     \vspace{\baselineskip}
     \centering
     \begin{NiceTabular}{c}[columns-width=0.9\textwidth,hvlines, rules/width=1pt]
-            \FCPropulsion \\
-            \FCAerodynamics \\
-            \FCSurvivability \\
-            \parbox{0.9\textwidth}{
-                    \raggedright
-                    \vspace{.5\baselineskip}
+        \FCPropulsion    \\
+        \FCAerodynamics  \\
+        \FCSurvivability \\
+        \parbox{0.9\textwidth}{
+            \raggedright
+            \vspace{.5\baselineskip}
             \FCArmament
-                    \vspace{.5\baselineskip}
-            }
+            \vspace{.5\baselineskip}
+        }
     \end{NiceTabular}
-    \par
+    % If you want two columns of text, do this, otherwise just 
+    % \large \justify #2
     \begin{multicols}{2}
-        \raggedcolumns 
+        \raggedcolumns
         \large
         \justify
+        \setlength{\parindent}{0pt}
         #2
     \end{multicols}
 
     \vspace*{\fill}
 
     \begin{center}
-            \href{\FCLink}{\centering \Huge \underline{Plane Builder Link}}
+        \href{\FCLink}{\centering \Huge \underline{Plane Builder Link}}
     \end{center}
 }
 
 % Define the keys for \Lancer Frame
 % The \FrameDefalt shows when things aren't set.
 \pgfkeys{
- /FCShip/.is family, FCShip,
- % Here are the options that a user can pass
- default/.style = {
-    Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Notes = {How many Crew?},
-    Speed = \FrameDefault{2}, Handling = \FrameDefault{-10},
-    Hardness = \FrameDefault{7}, Soak = \FrameDefault{0},
-    Strengths = \FrameDefault{-}, Weaknesses = \FrameDefault{-},
-    Vital Parts = {
+    /FCShip/.is family, FCShip,
+    % Here are the options that a user can pass
+    default/.style = {
+            Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Notes = {How many Crew?},
+            Speed = \FrameDefault{2}, Handling = \FrameDefault{-10},
+            Hardness = \FrameDefault{7}, Soak = \FrameDefault{0},
+            Strengths = \FrameDefault{-}, Weaknesses = \FrameDefault{-},
+            Vital Parts = {
                     1/ \hfill,
                     1/Sinking,
                 },
-    Armament = {},
-    Image = {NoImageFound},
-    },
+            Armament = {},
+            Image = {NoImageFound},
+        },
     Name/.store in = \FCName,
     Notes/.store in = \FCNotes,
     Speed/.store in = \FCSpeed,
@@ -459,9 +484,9 @@
 
     \begin{center}
         \begin{tikzpicture}
-                \node (image) at (0,0) {
-                        \includegraphics[width=\textwidth, height=0.33\textheight, keepaspectratio]{\FCImage}
-                };
+            \node (image) at (0,0) {
+                \includegraphics[width=\textwidth, height=0.33\textheight, keepaspectratio]{\FCImage}
+            };
         \end{tikzpicture}
     \end{center}
     \par
@@ -472,6 +497,7 @@
     \end{Kochfont}
 
     \Large
+    \setlength{\parindent}{0pt}
     #2
 
     \vfill
@@ -490,47 +516,127 @@
     \end{NiceTabular}
 
     \vspace{1em}
-    
+
     \ifdefempty{\FCArmament}{}{
-    \begin{center}
-        \begin{Kochfont}
+        \begin{center}
+            \begin{Kochfont}
                 \LARGE Weapons
-        \end{Kochfont}
-    \end{center}
-    \vspace{0.5em}
-    \begin{NiceTabular}{X[2,l]X[c]X[c]X[c]X[c]X[c]}[rules/width=1pt, hvlines, corners]
+            \end{Kochfont}
+        \end{center}
+        \vspace{0.5em}
+        \begin{NiceTabular}{X[2,l]X[c]X[c]X[c]X[c]X[c]}[rules/width=1pt, hvlines, corners]
              & Fore & Left & Right & Rear & Up \\
             \FCArmament
-    \end{NiceTabular}
+        \end{NiceTabular}
     }
 
     \ifdefempty{\FCNotes}{}{
         \begin{center}
-                \begin{Kochfont}
-                        \LARGE Notes
-                \end{Kochfont}
+            \begin{Kochfont}
+                \LARGE Notes
+            \end{Kochfont}
         \end{center}
 
         \FCNotes
     }
 }
 
+%%%%% Command for Making a Flying Circus Vehicle %%%%
+% Define the keys for \Lancer Frame
+% The \FrameDefalt shows when things aren't set.
+\pgfkeys{
+    /FCVehicleOnePage/.is family, FCVehicleOnePage,
+    % Here are the options that a user can pass
+    default/.style =
+        {Name = \FrameDefault{Flaktraktor-BC ``Flaktor''}, Price = \FrameDefault{25},
+            Nickname = \FrameDefault{Buzz Off}, Upkeep = \FrameDefault{1},
+            Speed = \FrameDefault{3}, Torque = \FrameDefault{+1}, Handling = \FrameDefault{15},
+            Armour = \FrameDefault{2/2/1}, Integrity = \FrameDefault{20}, Safety = \FrameDefault{2},
+            Reliability = \FrameDefault{0}, Fuel Uses = \FrameDefault{10}, Stress = \FrameDefault{1},
+            Size = \FrameDefault{Large Size}, Cargo = \FrameDefault{Tiny Cargo},
+            Crew = {}, Box Text = {}, Box Loc = {north east},
+            Image = {NoImageFound}
+        },
+    Name/.store in = \FCName,
+    Name/.value required,
+    Price/.store in = \FCPrice,
+    Nickname/.store in = \FCNickname,
+    Upkeep/.store in = \FCUpkeep,
+    Speed/.store in = \FCSpeed,
+    Torque/.store in = \FCTorque,
+    Handling/.store in = \FCHandling,
+    Armour/.store in = \FCArmour,
+    Integrity/.store in = \FCIntegrity,
+    Safety/.store in = \FCSafety,
+    Reliability/.store in = \FCReliability,
+    Fuel Uses/.store in = \FCFuelUses,
+    Stress/.store in = \FCStress,
+    Size/.store in = \FCSize,
+    Cargo/.store in = \FCCargo,
+    Crew/.store in = \FCCrew,
+    Box Text/.store in = \FCBoxText,
+    Box Loc/.store in = \FCBoxLoc,
+    Image/.store in = \FCImage,
+}
+% Actual command
+\newcommand{\FCVehicleOnePage}[2][]{%
+    % Always starts on left page
+    \clearpage
+    % Parse the keys passed in
+    \pgfkeys{FCVehicleOnePage, default, #1}%
+    \phantomsection\label{\FCImage}
+    \begin{tikzpicture}[remember picture]
+        \node (image) at (0,0) {
+            \includegraphics[width=\textwidth, keepaspectratio]{\FCImage}
+        };
+    \end{tikzpicture}
+    \phantomsection
+    \addcontentsline{toc}{section}{ \FCName }
+    % Visible text.  This says Underline all of { \FCName (but huge and dark grey) and all available horizontal space and a messy bit of text after it.}
+    % So the name is on the left, and the rest of the text is pushed all the way right by hfill, and it's all underlined.  Just replace the messy bit of 
+    % text with the price.  FCPlane can have both, either, or neither of new and used prices.
+    \uline{{\huge \textcolor{DarkGray}{\FCName}}
+        \hfill
+        \huge \textcolor{MidGray}{\ifdefempty{\FCPrice}{}{\FCPrice þ New\ifdefempty{\FCUpkeep}{}{,}} \ifdefempty{\FCUsed}{}{\FCUpkeep þ Upkeep}}}
+    \Large\normalfont\noindent\justify
+    \setlength{\parindent}{0pt}
+    #2
+    \begin{center}
+        \begin{NiceTabular}{cccccc}[hvlines, columns-width=0.1\pagewidth]
+            {Speed}              & {\FCSpeed}       & {Torque}    & {\FCTorque}           & {Handling} & {\FCHandling} \\
+            {Armour}             & {\FCArmour}      & {Integrity} & {\FCIntegrity}        & {Safety}   & {\FCSafety}   \\
+            {Reliability}        & {\FCReliability} & {Fuel Uses} & {\FCFuelUses}         & {Stress}   & {\FCStress}   \\
+            \Block{1-3}{\FCSize} &                  &             & \Block{1-3}{\FCCargo} &            &               \\
+        \end{NiceTabular}
+
+        \begin{NiceTabular}[width=\textwidth]{lcccX}[hvlines, corners]
+             & Type & Vis. & Escape & Notes \\
+            \FCCrew
+        \end{NiceTabular}
+    \end{center}
+
+
+
+}
+
+
+
 \etocsettocstyle{}{}
 \etocsetstyle{section}
-    {}
-    {}
-    {\textbf{\huge\etocthename\dotfill\etocpage}\par\vspace{2em}}
-    {}
+{}
+{}
+{\textbf{\huge\etocthename\dotfill\etocpage}\par\vspace{2em}}
+{}
 
 \directlua
 {
- fonts.handlers.otf.addfeature
-  {
-    name = "shuffle",
-    type = "multiple",
-    data =
-      {
-          ["s"] = {"$"},
-      },
-  }
+    fonts.handlers.otf.addfeature
+        {
+            name = "shuffle",
+            type = "multiple",
+            data =
+                {
+                    ["s"] = {"$"},
+                },
+        }
 }
