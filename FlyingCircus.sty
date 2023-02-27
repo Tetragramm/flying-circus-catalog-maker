@@ -1,5 +1,5 @@
 
-\RequirePackage[a4paper, margin= 0.5in]{geometry}
+\RequirePackage[a4paper, margin=0.75in]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage[normalem]{ulem}
 \RequirePackage[T1]{fontenc}
@@ -251,7 +251,7 @@
             Reliability = \FrameDefault{0}, Fuel Uses = \FrameDefault{10}, Stress = \FrameDefault{1},
             Size = \FrameDefault{Large Size}, Cargo = \FrameDefault{Tiny Cargo},
             Crew = {}, Box Text = {}, Box Loc = {north east},
-            Facing Image = {NoImageFound}
+            Facing Image = {NoImageFound}, Text Gap = {0.62}
         },
     Name/.store in = \FCName,
     Name/.value required,
@@ -273,6 +273,7 @@
     Box Text/.store in = \FCBoxText,
     Box Loc/.store in = \FCBoxLoc,
     Facing Image/.store in = \FCFacingImage,
+    Text Gap/.store in = \FCTextGap,
 }
 % Actual command
 \newcommand{\FCVehicle}[2][]{%
@@ -294,7 +295,7 @@
             };}
     \end{tikzpicture}
 
-    \vspace{0.62\paperwidth}
+    \vspace{\FCTextGap\paperwidth}
 
     \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
