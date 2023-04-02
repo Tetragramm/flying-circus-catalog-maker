@@ -23,6 +23,8 @@ import urllib
 
 
 # docker run -it --mount src="$(pwd)",target=/script,type=bind pymesh/pymesh
+# import subprocess
+# subprocess.run(["python", "/script/PyMeshPlane.py"])
 
 debugCockpit = False
 debugEngine = False
@@ -123,6 +125,7 @@ class StackType(Enum):
     TAILSECTION = 4
     TAIL = 5
     PROPELLER = 6
+    NOSE = 7
 
 
 class EngineType(Enum):
@@ -229,6 +232,18 @@ class TipShape(Enum):
     ROUNDED = 1
     CIRCLE = 2
     SFRONT = 3
+
+
+class WeaponType(Enum):
+    SMG = 1
+    LMG_LEWIS = 2
+    LMG_COLD = 3
+    MMG = 4
+    MMG_STOCK = 5
+    HMG = 6
+    LRC = 7
+    PR = 8
+    SCATTERGUN = 9
 
 
 skin_thickness = 0.02
@@ -587,7 +602,7 @@ def make_frame(front_type, rear_type, front_size, rear_size, length, opentop):
     else:
         edges, thickness = frame_edges[(rear_type, front_type, opentop)]
 
-    frame_mesh = inflateAndMerge(vertices, edges, thickness, 8)
+    frame_mesh = inflateAndMerge(vertices, edges, thickness, 4)
 
     wire_vertexes = make_wire_vertices(
         front_size-skin_thickness, rear_size-skin_thickness, length)
@@ -659,9 +674,10 @@ class Propeller(Part):
                        PropellerType.THREEBLADE: '/script/objects/3BladeProp.obj',
                        PropellerType.FOURBLADE: '/script/objects/2BladeProp.obj', }
 
-    def __init__(self, prop_type=PropellerType.TWOBLADE) -> None:
+    def __init__(self, prop_type=PropellerType.TWOBLADE, shaft=0) -> None:
         super().__init__()
         self.prop_type = prop_type
+        self.shaft = shaft
 
     def build(self, shape, _):
         propeller_file = self.propeller_types[self.prop_type]
@@ -670,6 +686,15 @@ class Propeller(Part):
             propeller_mesh = pymesh.merge_meshes(
                 [propeller_mesh, transform(propeller_mesh, rotation=[0, 0, 90])])
         prop_length = propeller_mesh.bbox[1][2]
+        if self.shaft != 0:
+            shaft_mesh = pymesh.generate_cylinder(
+                [0, 0, 0], [0, 0, prop_length+abs(self.shaft)], 0.05, 0.05, 8)
+            if self.shaft < 0:
+                propeller_mesh = transform(
+                    propeller_mesh, translation=[0, 0, self.shaft])
+            propeller_mesh = pymesh.merge_meshes([propeller_mesh, shaft_mesh])
+            prop_length = prop_length+abs(self.shaft)
+
         return propeller_mesh, prop_length, shape, None
 
 
@@ -1811,6 +1836,43 @@ class Tail(Part):
         return pymesh.merge_meshes(tail_meshes)
 
 
+class Nose(Part):
+    def __init__(self, shape=None, size=None, skin=Skin.CLOTH) -> None:
+        super().__init__()
+        self.shape = shape
+        self.size = size
+        self.skin = skin
+
+    def build(self, shape, size):
+        if self.shape is not None:
+            shape = self.shape
+        if self.size is not None:
+            size = self.size
+
+        sec = make_section(0.75*frame_length-0.25*size, 0, size, shape,
+                           shape, self.skin, opentop=False, firewall_front=False)
+        sec = transform(sec, translation=[0, 0, 0.25*size])
+        tip = pymesh.generate_icosphere(
+            0.25*size, [0, 0, 0.25*size], refinement_order=3)
+        nose_shell = pymesh.merge_meshes([sec, tip])
+        nose_mesh = pymesh.convex_hull(nose_shell)
+
+        return nose_mesh, 0.75*frame_length, shape, size
+
+
+class Weapon(Part):
+    def __init__(self, weap_type, count) -> None:
+        super().__init__()
+        self.type = weap_type
+        self.count = count
+
+    def build(self, shape, size)
+    if self.weap_type == WeaponType.SMG:
+        wmesh = pymesh.meshio.load_mesh('./objects/SMG.obj')
+
+    return weap_mesh, None, None, None
+
+
 class Slice(object):
     def __init__(self, parts=[]) -> None:
         self.parts = []
@@ -1831,6 +1893,8 @@ class Slice(object):
                 part = WingBank(*args)
             elif type == StackType.TAIL:
                 part = Tail(*args)
+            elif type == StackType.NOSE:
+                part = Nose(*args)
             else:
                 print("{} not implemented".format(type))
             self.parts.extend(part if isinstance(part, list) else [part])
@@ -1959,6 +2023,10 @@ def make_section(length, front_size, rear_size, front_shape, rear_shape, skin=Sk
 
 
 def Save(name, plane):
+    plane, _ = pymesh.remove_duplicated_faces(plane)
+    plane, _ = pymesh.remove_duplicated_vertices(plane)
+    plane, _ = pymesh.remove_degenerated_triangles(plane)
+    plane, _ = pymesh.remove_isolated_vertices(plane)
     print('Saving {}'.format(name))
     with open('/script/{}.obj'.format(name), 'w') as f:
         f.write("# OBJ file\n")
@@ -2002,236 +2070,241 @@ plane = aircraft.Build()
 Save(name, plane)
 
 
-name = 'Schnappchenchuss'
-wings = [[Wing((WingHeight.PARASOL, 8, 8, 0, 0, TipShape.SQUARE), airfoil),
-          Wing((WingHeight.MID, 4, 4, 0, 0, TipShape.SQUARE), airfoil),
-         Wing((WingHeight.GEAR, 10, 8, 0, 0, TipShape.SQUARE), symm_airfoil)]]
-fuselage = [Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.OPEN, opentop=True),
-            Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.NONE)]
-stacks = [
-    [
-        [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.TWOBLADE))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.FORWARD, rear_firewall=True))],
-        [(StackType.SECTION, fuselage[0]),
-         (StackType.WINGBANK, WingBank(wings[0], Stagger.NEGATIVE, cabane=StrutType.PARALLEL, struts=[
-          StrutType.PARALLEL, StrutType.N], gear=GearType.WHEEL, wires=True))],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.TAILSECTION, TailSection(2, Skin.CLOTH, rear_size=tail_width))],
-        [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
-          htipshape=TipShape.SFRONT, vtipshape=TipShape.SFRONT))],
-    ],
-]
-offsets = [[0, 0, 0]]
+# name = 'Schnappchenchuss'
+# wings = [[Wing((WingHeight.PARASOL, 8, 8, 0, 0, TipShape.SQUARE), airfoil),
+#           Wing((WingHeight.MID, 4, 4, 0, 0, TipShape.SQUARE), airfoil),
+#          Wing((WingHeight.GEAR, 10, 8, 0, 0, TipShape.SQUARE), symm_airfoil)]]
+# fuselage = [Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.OPEN, opentop=True),
+#             Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.NONE)]
+# stacks = [
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
+#         [(StackType.PROPELLER, Propeller(PropellerType.TWOBLADE))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.FORWARD, rear_firewall=True))],
+#         [(StackType.SECTION, fuselage[0]),
+#          (StackType.WINGBANK, WingBank(wings[0], Stagger.NEGATIVE, cabane=StrutType.PARALLEL, struts=[
+#           StrutType.PARALLEL, StrutType.N], gear=GearType.WHEEL, wires=True))],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.TAILSECTION, TailSection(2, Skin.CLOTH, rear_size=tail_width))],
+#         [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
+#           htipshape=TipShape.SFRONT, vtipshape=TipShape.SFRONT))],
+#     ],
+# ]
+# offsets = [[0, 0, 0]]
 
-aircraft = Plane(stacks=stacks, offsets=offsets)
-plane = aircraft.Build()
-Save(name, plane)
-
-
-name = 'Bunderfalke'
-wings = [[Wing((WingHeight.MID, 8*frame_length, 8, 0, 2500, TipShape.SQUARE), (airfoil, ellipse_airfoil))],
-         [Wing((WingHeight.MID, 8*frame_length, 8, 0, -2500, TipShape.SQUARE), (airfoil, ellipse_airfoil))]]
-fuselage = [Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.OPEN, opentop=True),
-            Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.NONE, opentop=False),
-            Section(FrameShape.MIXED, Skin.NAKED, Cockpit.NONE, opentop=False)]
-stacks = [
-    [
-        [(StackType.SHAPE, Shape(FrameShape.MIXED, size=frame_width))],
-        [(StackType.SECTION, fuselage[1]),
-         (StackType.WINGBANK, WingBank(wings[0], Stagger.UNSTAGGERED, cabane=None, struts=[StrutType.TRUSSV
-                                                                                           ], gear=GearType.WHEEL, wires=False))
-         ],
-        [(StackType.SECTION, fuselage[0])],
-        [(StackType.TAILSECTION, TailSection(
-            2, Skin.CLOTH, rear_shape=FrameShape.MIXED))],
-        [(StackType.SECTION, fuselage[1]),
-            (StackType.WINGBANK, WingBank(wings[1], Stagger.UNSTAGGERED, cabane=None, struts=[StrutType.TRUSSV], gear=GearType.WHEEL, wires=False))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-                                   EngineMounting.EXPOSED, EngineDirection.BACKWARD))],
-        [(StackType.PROPELLER, Propeller(PropellerType.THREEBLADE))],
-    ],
-    [
-        [(StackType.TAIL, Tail(StabilizerType.NORMAL, 0, 1, sizeFactor=0.5,
-                               vtipshape=TipShape.ROUNDED)), ]
-    ]
-]
-offsets = [[0, 0, 0], [0, 0, 4.5*frame_length]]
-
-aircraft = Plane(stacks=stacks, offsets=offsets)
-plane = aircraft.Build()
-Save(name, plane)
+# aircraft = Plane(stacks=stacks, offsets=offsets)
+# plane = aircraft.Build()
+# Save(name, plane)
 
 
-name = 'Brechenstein'
-wings = [[Wing((WingHeight.SHOULDER, 12, 12, 0, 5, TipShape.SQUARE), airfoil),
-          Wing((WingHeight.LOW, 12, 12, 0, 5, TipShape.SQUARE), airfoil)]]
-engines = []
-fuselage = [Section(FrameShape.BOX, Skin.CLOTH, Cockpit.OPEN, True),
-            Section(FrameShape.BOX, Skin.CLOTH, Cockpit.NONE)]
-stacks = [
-    [
-        [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.8*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.THREEBLADE))],
-        [(StackType.ENGINE, Engine(EngineType.ROTARY,
-          EngineMounting.EXPOSED, EngineDirection.FORWARD))],
-        [(StackType.SECTION, fuselage[0]),
-         (StackType.WINGBANK, WingBank(wings[0], Stagger.XPOSITIVE, cabane=StrutType.PARALLEL, struts=[
-          StrutType.PARALLEL], wires=True, gear=GearType.WHEEL)), ],
-        [(StackType.SECTION, fuselage[0]), ],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.TAILSECTION, TailSection(3, Skin.CLOTH, rear_size=tail_width))],
-        [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
-          htipshape=TipShape.SFRONT, vtipshape=TipShape.CIRCLE))],
-    ],
-]
-offsets = [[0, 0, 0]]
+# name = 'Bunderfalke'
+# wings = [[Wing((WingHeight.MID, 8*frame_length, 8, 0, 2500, TipShape.SQUARE), (airfoil, ellipse_airfoil))],
+#          [Wing((WingHeight.MID, 8*frame_length, 8, 0, -2500, TipShape.SQUARE), (airfoil, ellipse_airfoil))]]
+# fuselage = [Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.OPEN, opentop=True),
+#             Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.NONE, opentop=False),
+#             Section(FrameShape.MIXED, Skin.NAKED, Cockpit.NONE, opentop=False)]
+# stacks = [
+#     [
+#         [(StackType.NOSE, Nose(FrameShape.MIXED, size=frame_width, skin=Skin.CLOTH))],
+#         [(StackType.SECTION, fuselage[1]),
+#          (StackType.WINGBANK, WingBank(wings[0], Stagger.UNSTAGGERED, cabane=None, struts=[StrutType.TRUSSV
+#                                                                                            ], gear=GearType.WHEEL, wires=False))
+#          ],
+#         [(StackType.SECTION, fuselage[0])],
+#         [(StackType.TAILSECTION, TailSection(
+#             2, Skin.CLOTH, rear_shape=FrameShape.MIXED))],
+#         [(StackType.SECTION, fuselage[1]),
+#             (StackType.WINGBANK, WingBank(wings[1], Stagger.UNSTAGGERED, cabane=None, struts=[StrutType.TRUSSV], gear=GearType.WHEEL, wires=False))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#                                    EngineMounting.EXPOSED, EngineDirection.BACKWARD))],
+#         [(StackType.PROPELLER, Propeller(PropellerType.THREEBLADE))],
+#     ],
+#     [
+#         [(StackType.TAIL, Tail(StabilizerType.NORMAL, 0, 1, sizeFactor=0.5,
+#                                vtipshape=TipShape.ROUNDED)), ]
+#     ]
+# ]
+# offsets = [[0, 0, 0], [0, 0, 4.5*frame_length]]
 
-aircraft = Plane(stacks=stacks, offsets=offsets)
-plane = aircraft.Build()
-Save(name, plane)
-
-
-name = 'Skyborn Special'
-wings = [[Wing((WingHeight.MID, 27, 9, 0, 5, TipShape.SFRONT), airfoil)]]
-engines = []
-fuselage = [Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.OPEN, True),
-            Section(FrameShape.BOX, Skin.CLOTH, Cockpit.NONE)]
-stacks = [
-    [
-        [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=frame_width))],
-        [(StackType.SECTION, fuselage[0]),
-         (StackType.WINGBANK, WingBank(wings[0], Stagger.UNSTAGGERED, cabane=None, struts=[StrutType.TRUSSV, StrutType.TRUSSV], wires=False, gear=GearType.SKID)), ],
-        [(StackType.SECTION, fuselage[1]), ],
-        [(StackType.TAILSECTION, TailSection(2, Skin.CLOTH, rear_size=tail_width))],
-        [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
-          htipshape=TipShape.SFRONT, vtipshape=TipShape.SFRONT))],
-    ],
-    [
-        [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.BACKWARD, new_size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
-    ],
-    [
-        [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.BACKWARD, new_size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
-    ],
-]
-offsets = [[0, 0, 0], [-2, 0, 1.6*frame_length], [2, 0, 1.6*frame_length]]
-
-aircraft = Plane(stacks=stacks, offsets=offsets)
-plane = aircraft.Build()
-Save(name, plane)
+# aircraft = Plane(stacks=stacks, offsets=offsets)
+# plane = aircraft.Build()
+# Save(name, plane)
 
 
-name = 'Super SeePfau'
-wings = [[Wing((WingHeight.SHOULDER, 10, 11, 0, 0, TipShape.SQUARE), airfoil),
-          Wing((WingHeight.LOW, 10, 11, 0, 0, TipShape.SQUARE), airfoil), ]]
-fuselage = [Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.OPEN, opentop=True),
-            Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.NONE)]
-stacks = [
-    [
-        [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.TWOBLADE))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.FORWARD, rear_firewall=True))],
-        [(StackType.SECTION, fuselage[0]),
-         (StackType.WINGBANK, WingBank(wings[0], Stagger.XPOSITIVE, cabane=StrutType.PARALLEL, struts=[
-          StrutType.PARALLEL], gear=GearType.FLOATS, wires=True))],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.TAILSECTION, TailSection(1, Skin.CLOTH, rear_size=tail_width))],
-        [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
-          htipshape=TipShape.ROUNDED, vtipshape=TipShape.CIRCLE))],
-    ],
-]
-offsets = [[0, 0, 0]]
+# name = 'Brechenstein'
+# wings = [[Wing((WingHeight.SHOULDER, 12, 12, 0, 5, TipShape.SQUARE), airfoil),
+#           Wing((WingHeight.LOW, 12, 12, 0, 5, TipShape.SQUARE), airfoil)]]
+# engines = []
+# fuselage = [Section(FrameShape.BOX, Skin.CLOTH, Cockpit.OPEN, True),
+#             Section(FrameShape.BOX, Skin.CLOTH, Cockpit.NONE)]
+# stacks = [
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.8*frame_width))],
+#         [(StackType.PROPELLER, Propeller(PropellerType.THREEBLADE))],
+#         [(StackType.ENGINE, Engine(EngineType.ROTARY,
+#           EngineMounting.EXPOSED, EngineDirection.FORWARD))],
+#         [(StackType.SECTION, fuselage[0]),
+#          (StackType.WINGBANK, WingBank(wings[0], Stagger.XPOSITIVE, cabane=StrutType.PARALLEL, struts=[
+#           StrutType.PARALLEL], wires=True, gear=GearType.WHEEL)), ],
+#         [(StackType.SECTION, fuselage[0]), ],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.TAILSECTION, TailSection(3, Skin.CLOTH, rear_size=tail_width))],
+#         [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
+#           htipshape=TipShape.SFRONT, vtipshape=TipShape.CIRCLE))],
+#     ],
+# ]
+# offsets = [[0, 0, 0]]
 
-aircraft = Plane(stacks=stacks, offsets=offsets)
-plane = aircraft.Build()
-Save(name, plane)
-
-
-name = 'Barons Bomber'
-wings = [[Wing((WingHeight.PARASOL, 30, 21, 0, 5, TipShape.SQUARE), airfoil),
-          Wing((WingHeight.LOW, 30, 21, 0, 5, TipShape.SQUARE), airfoil), ]]
-fuselage = [Section(FrameShape.BOX, Skin.CLOTH, Cockpit.OPEN, opentop=True),
-            Section(FrameShape.BOX, Skin.CLOTH, Cockpit.NONE)]
-stacks = [
-    [
-        [(StackType.SHAPE, Shape(FrameShape.BOX, size=frame_width))],
-        [(StackType.SECTION, fuselage[0]), ],
-        [(StackType.SECTION, fuselage[0]),
-         (StackType.WINGBANK, WingBank(wings[0], Stagger.XPOSITIVE, cabane=StrutType.STAR, struts=[
-          StrutType.PARALLEL, StrutType.PARALLEL, StrutType.PARALLEL, StrutType.SINGLE, StrutType.TRUSSV, StrutType.TRUSSV], gear=GearType.WHEEL, wires=True))],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.TAILSECTION, TailSection(3, Skin.CLOTH, rear_size=tail_width))],
-        [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1, sizeFactor=0.75, spanFactor=0.75,
-          htipshape=TipShape.SFRONT, vtipshape=TipShape.ROUNDED))],
-    ],
-    [
-        [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
-    ],
-    [
-        [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
-    ],
-]
-offsets = [[0, 0, 0], [-5, 0, 1.25*frame_length], [5, 0, 1.25*frame_length]]
-
-aircraft = Plane(stacks=stacks, offsets=offsets)
-plane = aircraft.Build()
-Save(name, plane)
+# aircraft = Plane(stacks=stacks, offsets=offsets)
+# plane = aircraft.Build()
+# Save(name, plane)
 
 
-name = 'Bergziegel'
-wings = [[Wing((WingHeight.SHOULDER, 25, 10, 0, 5, TipShape.SQUARE), airfoil),
-          Wing((WingHeight.LOW, 25, 10, 0, 5, TipShape.SQUARE), airfoil), ]]
-fuselage = [Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.OPEN, opentop=True, newsize=2*frame_width),
-            Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.NONE),
-            Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.NONE, newsize=frame_width)]
-stacks = [
-    [
-        [(StackType.SHAPE, Shape(FrameShape.MIXED, size=frame_width))],
-        [(StackType.SECTION, fuselage[0]), ],
-        [(StackType.SECTION, fuselage[1]),
-         (StackType.WINGBANK, WingBank(wings[0], Stagger.POSITIVE, cabane=StrutType.PARALLEL, struts=[
-          StrutType.PARALLEL, StrutType.PARALLEL], gear=GearType.WHEEL, wires=True))],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.SECTION, fuselage[1])],
-        [(StackType.SECTION, fuselage[2])],
-        [(StackType.TAILSECTION, TailSection(3, Skin.CLOTH, rear_size=tail_width))],
-        [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1, sizeFactor=1, spanFactor=1,
-          htipshape=TipShape.SQUARE, vtipshape=TipShape.SQUARE))],
-    ],
-    [
-        [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
-    ],
-    [
-        [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.5*frame_width))],
-        [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
-        [(StackType.ENGINE, Engine(EngineType.INLINE,
-          EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
-    ],
-]
-offsets = [[0, 0, 0], [-2.75, -0.2, frame_length], [2.75, -0.2, frame_length]]
+# name = 'Skyborn Special'
+# wings = [[Wing((WingHeight.MID, 27, 9, 0, 5, TipShape.SFRONT), airfoil)]]
+# engines = []
+# fuselage = [Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.OPEN, True),
+#             Section(FrameShape.BOX, Skin.CLOTH, Cockpit.NONE)]
+# stacks = [
+#     [
+#         [(StackType.NOSE, Nose(FrameShape.CYLINDER, size=frame_width))],
+#         [(StackType.SECTION, fuselage[0]),
+#          (StackType.WINGBANK, WingBank(wings[0], Stagger.UNSTAGGERED, cabane=None, struts=[StrutType.TRUSSV, StrutType.TRUSSV], wires=False, gear=GearType.SKID)), ],
+#         [(StackType.SECTION, fuselage[1]), ],
+#         [(StackType.TAILSECTION, TailSection(2, Skin.CLOTH, rear_size=tail_width))],
+#         [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
+#           htipshape=TipShape.SFRONT, vtipshape=TipShape.SFRONT))],
+#     ],
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.BACKWARD, new_size=0.5*frame_width))],
+#         [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
+#     ],
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.BACKWARD, new_size=0.5*frame_width))],
+#         [(StackType.PROPELLER, Propeller(PropellerType.FOURBLADE))],
+#     ],
+# ]
+# offsets = [[0, 0, 0], [-2, 0, 2.25*frame_length], [2, 0, 2.25*frame_length]]
 
-aircraft = Plane(stacks=stacks, offsets=offsets)
-plane = aircraft.Build()
-Save(name, plane)
+# aircraft = Plane(stacks=stacks, offsets=offsets)
+# plane = aircraft.Build()
+# Save(name, plane)
+
+
+# name = 'Super SeePfau'
+# wings = [[Wing((WingHeight.SHOULDER, 10, 11, 0, 0, TipShape.SQUARE), airfoil),
+#           Wing((WingHeight.LOW, 10, 11, 0, 0, TipShape.SQUARE), airfoil), ]]
+# fuselage = [Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.OPEN, opentop=True),
+#             Section(FrameShape.CYLINDER, Skin.CLOTH, Cockpit.NONE)]
+# stacks = [
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.CYLINDER, size=0.5*frame_width))],
+#         [(StackType.PROPELLER, Propeller(PropellerType.TWOBLADE))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.FORWARD, rear_firewall=True))],
+#         [(StackType.SECTION, fuselage[0]),
+#          (StackType.WINGBANK, WingBank(wings[0], Stagger.XPOSITIVE, cabane=StrutType.PARALLEL, struts=[
+#           StrutType.PARALLEL], gear=GearType.FLOATS, wires=True))],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.TAILSECTION, TailSection(1, Skin.CLOTH, rear_size=tail_width))],
+#         [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1,
+#           htipshape=TipShape.ROUNDED, vtipshape=TipShape.CIRCLE))],
+#     ],
+# ]
+# offsets = [[0, 0, 0]]
+
+# aircraft = Plane(stacks=stacks, offsets=offsets)
+# plane = aircraft.Build()
+# Save(name, plane)
+
+
+# name = 'Barons Bomber'
+# wings = [[Wing((WingHeight.PARASOL, 30, 21, 0, 5, TipShape.SQUARE), airfoil),
+#           Wing((WingHeight.LOW, 30, 21, 0, 5, TipShape.SQUARE), airfoil), ]]
+# fuselage = [Section(FrameShape.BOX, Skin.CLOTH, Cockpit.OPEN, opentop=True),
+#             Section(FrameShape.BOX, Skin.CLOTH, Cockpit.NONE)]
+# stacks = [
+#     [
+#         [(StackType.NOSE, Nose(FrameShape.BOX, size=frame_width))],
+#         [(StackType.SECTION, fuselage[0]), ],
+#         [(StackType.SECTION, fuselage[0]),
+#          (StackType.WINGBANK, WingBank(wings[0], Stagger.XPOSITIVE, cabane=StrutType.STAR, struts=[
+#           StrutType.PARALLEL, StrutType.PARALLEL, StrutType.PARALLEL, StrutType.SINGLE, StrutType.TRUSSV, StrutType.TRUSSV], gear=GearType.WHEEL, wires=True))],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.TAILSECTION, TailSection(3, Skin.CLOTH, rear_size=tail_width))],
+#         [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1, sizeFactor=0.75, spanFactor=0.75,
+#           htipshape=TipShape.SFRONT, vtipshape=TipShape.ROUNDED))],
+#     ],
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.5*frame_width))],
+#         [(StackType.PROPELLER, Propeller(
+#             PropellerType.FOURBLADE, shaft=0.25*frame_length))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
+#     ],
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.5*frame_width))],
+#         [(StackType.PROPELLER, Propeller(
+#             PropellerType.FOURBLADE, shaft=0.25*frame_length))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
+#     ],
+# ]
+# offsets = [[0, 0, 0], [-5, 0, 2*frame_length], [5, 0, 2*frame_length]]
+
+# aircraft = Plane(stacks=stacks, offsets=offsets)
+# plane = aircraft.Build()
+# Save(name, plane)
+
+
+# name = 'Bergziegel'
+# wings = [[Wing((WingHeight.SHOULDER, 25, 10, 0, 5, TipShape.SQUARE), airfoil),
+#           Wing((WingHeight.LOW, 25, 10, 0, 5, TipShape.SQUARE), airfoil), ]]
+# fuselage = [Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.OPEN, opentop=True, newsize=2*frame_width),
+#             Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.NONE),
+#             Section(FrameShape.MIXED, Skin.CLOTH, Cockpit.NONE, newsize=frame_width)]
+# stacks = [
+#     [
+#         [(StackType.NOSE, Nose(FrameShape.MIXED, size=frame_width))],
+#         [(StackType.SECTION, fuselage[0]), ],
+#         [(StackType.SECTION, fuselage[1]),
+#          (StackType.WINGBANK, WingBank(wings[0], Stagger.POSITIVE, cabane=StrutType.PARALLEL, struts=[
+#           StrutType.PARALLEL, StrutType.PARALLEL], gear=GearType.WHEEL, wires=True))],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.SECTION, fuselage[1])],
+#         [(StackType.SECTION, fuselage[2])],
+#         [(StackType.TAILSECTION, TailSection(3, Skin.CLOTH, rear_size=tail_width))],
+#         [(StackType.TAIL, Tail(StabilizerType.NORMAL, 1, 1, sizeFactor=1, spanFactor=1,
+#           htipshape=TipShape.SQUARE, vtipshape=TipShape.SQUARE))],
+#     ],
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.5*frame_width))],
+#         [(StackType.PROPELLER, Propeller(
+#             PropellerType.FOURBLADE, shaft=0.75*frame_length))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
+#     ],
+#     [
+#         [(StackType.SHAPE, Shape(FrameShape.BOX, size=0.75*frame_width))],
+#         [(StackType.PROPELLER, Propeller(
+#             PropellerType.FOURBLADE, shaft=0.5*frame_length))],
+#         [(StackType.ENGINE, Engine(EngineType.INLINE,
+#           EngineMounting.EXPOSED, EngineDirection.FORWARD, new_size=0.5*frame_width))],
+#     ],
+# ]
+# offsets = [[0, 0, 0], [-2.75, -0.2, 1.75*frame_length],
+#            [2.75, -0.2, 1.75*frame_length]]
+
+# aircraft = Plane(stacks=stacks, offsets=offsets)
+# plane = aircraft.Build()
+# Save(name, plane)
 
 # Nose Caps
 # Wing Seam?

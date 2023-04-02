@@ -19,25 +19,25 @@ Only some packages are available, with the most common commands you may use desc
 \section{Setup}
 First, you must install the dependencies.
 \begin{itemize}
-    \item \href{https://www.python.org/}{\color{blue}\underline{Python 3}}  (Ensure the box ``Add Python to environment variables'' is checked)
-    \item \href{https://tug.org/texlive/}{\color{blue}\underline{TeX Live 2021}}
-    \item The Fonts (provided)
+        \item \href{https://www.python.org/}{\color{blue}\underline{Python 3}}  (Ensure the box ``Add Python to environment variables'' is checked)
+        \item \href{https://tug.org/texlive/}{\color{blue}\underline{TeX Live 2021}}
+        \item The Fonts (provided)
 \end{itemize}
 Fortunately, these are nice simple installers, and you should be able to handle it fine.  The TeX Live installer does download a lot of packages, which can take some time.  For slower internet connections, potentially hours.  The fonts are stored in the folder called "fonts".  On Windows, just right click on them and hit install.
 \section{What you Get}
 In this folder are the fonts to install, some template files that are used during processing, and the Python scripts Create.py and Compile.py.  That's it!  That's all you need, besides your airplane designs.
 \section{How to Use}
 \begin{enumerate}
-    \item Go to the \href{https://tetragramm.github.io/PlaneBuilder/index.html}{\color{blue}\underline{Plane Builder}} and load each of your aircraft designs.  Save them using the "Save Catalog" button at the bottom of the page, in this folder.
-    \item Rename those files so they are in the order you wish them in the catalog.  I suggest naming them something like "A\_First\_Plane.txt", "B\_Second\_Plane.txt", ect.
-    \item Open each of them and change the line "Insert Nickname Here" to the actual nickname of the plane.
-    \item Open a command prompt or powershell window in the folder.  Hold the Shift key and right click in the folder, and click the ``Open command prompt window here'' or ``Open PowerShell window here'' options.
-    \item Alternatively, do this by searching in the start menu, then using the command "cd" (change directory) to navigate to this folder.
-    \item Run the command \begin{verbatim}
+        \item Go to the \href{https://tetragramm.github.io/PlaneBuilder/index.html}{\color{blue}\underline{Plane Builder}} and load each of your aircraft designs.  Save them using the "Save Catalog" button at the bottom of the page, in this folder.
+        \item Rename those files so they are in the order you wish them in the catalog.  I suggest naming them something like "A\_First\_Plane.txt", "B\_Second\_Plane.txt", ect.
+        \item Open each of them and change the line "Insert Nickname Here" to the actual nickname of the plane.
+        \item Open a command prompt or powershell window in the folder.  Hold the Shift key and right click in the folder, and click the ``Open command prompt window here'' or ``Open PowerShell window here'' options.
+        \item Alternatively, do this by searching in the start menu, then using the command "cd" (change directory) to navigate to this folder.
+        \item Run the command \begin{verbatim}
         python .\Create.py
     \end{verbatim} and when asked, type the Title and zero or more authors to include. When you are done entering authors, just press enter on an empty line.
-    \item Wait just a minute as a gigantic pile of text cascades down the window.  Don't worry, it doesn't matter.
-    \item Note the changes to the directory.  Three new folders (desc, images, subfiles), an AuthorInfo.text, some temporary files created by \LaTeX, and most importantly, a pdf file!
+        \item Wait just a minute as a gigantic pile of text cascades down the window.  Don't worry, it doesn't matter.
+        \item Note the changes to the directory.  Three new folders (desc, images, subfiles), an AuthorInfo.text, some temporary files created by \LaTeX, and most importantly, a pdf file!
 \end{enumerate}
 
 \section{What to Change}
@@ -50,12 +50,12 @@ The folder "desc" contains all of the text you edit.  For each plane there is a 
 \subsection{The Table}
 The table is the simpler file.  Each row consists of two parts, separated by an = sign, like the default one, reproduced below.
 \begin{displayquote}
-    Role=Edit, Add or\\
-    Served With=remove lines\\
-    First Flight=to fill\\
-    Strengths=out the\\
-    Weaknesses=table\\
-    Inspiration=like this.\\
+        Role=Edit, Add or\\
+        Served With=remove lines\\
+        First Flight=to fill\\
+        Strengths=out the\\
+        Weaknesses=table\\
+        Inspiration=like this.\\
 \end{displayquote}
 The part to the left of the equal sign makes up the first column of the plane's table.  The part to the right, the second.  Don't put more than one equal sign per row, or it won't work.  You can add or remove rows to your heart's content, and are not limited to the ones already there, which were chosen because that's what the first catalog used.
 
@@ -84,7 +84,7 @@ To manually place a line break, for example to keep the table from getting too w
 \\\\
 Underline using ``\textbackslash underline\{Text to underline\}''
 \\\\
-The font used in the plane catalogs does not have a bold face, but italics are ``\textbackslash emph\{Text to italicize\}''
+The font used in the plane catalogs does not have a bold face, but italics are ``\textbackslash textit\{Text to italicize\}''
 \\\\
 Font size can be changed by using ``\textbackslash size'' where the valid sizes are tiny, scriptsize, footnotesize, small, normalsize, large, Large, LARGE, huge, and Huge.
 \\\\

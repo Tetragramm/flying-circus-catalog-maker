@@ -165,7 +165,7 @@ getting too wide, use "\\\\".
 Underline using "\\underline{Text to underline}"
 
 The font used in the plane catalogs does not have a bold face, but
-italics are "\\emph{Text to italicize}"
+italics are "\\textit{Text to italicize}"
 
 Font size can be changed by using "\\size" where the valid sizes are
 tiny, scriptsize, footnotesize, small, normalsize, large, Large, LARGE,
