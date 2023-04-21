@@ -174,6 +174,24 @@
 }
 
 \makeatother
+
+% Testing image sizing
+\newsavebox\mybox
+
+% https://tex.stackexchange.com/a/383700/4686
+\makeatletter
+\newcommand\SetToRatio[3]{% sets #1 to be the ratio #2/#3, where #2 and #3 
+    % are lengths (registers or expressions).
+    % The ratio #2/#3 should evaluate to less than 16384 in absolute value to 
+    % avoid arithmetic overflow. It will be computed as fixed point
+    % number with about 4 or 5 digits after decimal mark.
+    \edef #1%
+    {\strip@pt\dimexpr
+        \numexpr\dimexpr#2\relax*65536/\dimexpr#3\relax\relax sp\relax}%
+}
+\makeatother
+
+
 %Custom command for inserting cover picture.  Try three different file formats.
 \newcommand{\InsertFCCoverPicture}{
     \IfFileExists{./images/cover.png}{\includepdf{./images/cover.png}}{
@@ -373,13 +391,13 @@
     % Also, if the variable \FCBoxText was filled, make a box in the corner \FCBoxLoc with that text inside a table.
     % Can remove the bit about NiceTabular to make it just a box of text.  See FCVehicle for that.
     \begin{center}
-        \begin{tikzpicture}
-            \node (image) at (0,0) {
-                \includegraphics[width=\textwidth, height=0.33\textheight, keepaspectratio]{\FCImage}
+        \begin{tikzpicture}[overlay, remember picture]
+            \node[anchor=north] (image) at (current page text area.north) {
+                \includegraphics[width=\paperwidth, keepaspectratio]{\FCImage}
             };
 
             \ifdefempty{\FCBoxText}{}{
-                \node[draw,fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt,anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
+                \node[draw,fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=1cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
                     \large
                     \begin{NiceTabular}{cc}[hvlines]
                         \FCBoxText
@@ -387,6 +405,10 @@
             }
         \end{tikzpicture}
     \end{center}
+    \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCImage}}
+    \SetToRatio\aspectratio{\dimexpr\ht\mybox+\dp\mybox\relax}{\wd\mybox}
+    \vspace{\aspectratio\paperwidth}
+
     % Some spacing, then add a section entry to the table of contents with the value \FCName
     % \phantomsection puts a "break" so it knows to actually go there.  Totally invisible, but 
     % when you click on the page number in the table of contents, this is the spot it goes.
@@ -400,6 +422,7 @@
         \hfill
         \large \textcolor{MidGray}{\ifdefempty{\FCPrice}{}{\FCPrice þ New\ifdefempty{\FCUsed}{}{,}} \ifdefempty{\FCUsed}{}{\FCUsed þ Used}}}
 
+    \vspace{-0.4\baselineskip}
     % More text right under the line, again with hfill to pus the rest right
     \Large \textcolor{DarkGray}{\textit{``\FCNickname''}} \hfill \large \textcolor{MidGray}{\FCUpkeep þ Upkeep}
 
@@ -484,12 +507,15 @@
     \pgfkeys{FCShip, default, #1}%
 
     \begin{center}
-        \begin{tikzpicture}
-            \node (image) at (0,0) {
-                \includegraphics[width=\textwidth, height=0.33\textheight, keepaspectratio]{\FCImage}
+        \begin{tikzpicture}[overlay, remember picture]
+            \node[anchor=north] (image) at (current page text area.north) {
+                \includegraphics[width=\paperwidth, keepaspectratio]{\FCImage}
             };
         \end{tikzpicture}
     \end{center}
+    \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCImage}}
+    \SetToRatio\aspectratio{\dimexpr\ht\mybox+\dp\mybox\relax}{\wd\mybox}
+    \vspace{\aspectratio\paperwidth}
     \par
     \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
@@ -586,11 +612,14 @@
     % Parse the keys passed in
     \pgfkeys{FCVehicleOnePage, default, #1}%
     \phantomsection\label{\FCImage}
-    \begin{tikzpicture}[remember picture]
-        \node (image) at (0,0) {
-            \includegraphics[width=\textwidth, keepaspectratio]{\FCImage}
+    \begin{tikzpicture}[overlay, remember picture]
+        \node[anchor=north] (image) at (current page text area.north) {
+            \includegraphics[width=\paperwidth, keepaspectratio]{\FCImage}
         };
     \end{tikzpicture}
+    \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCImage}}
+    \SetToRatio\aspectratio{\dimexpr\ht\mybox+\dp\mybox\relax}{\wd\mybox}
+    \vspace{\aspectratio\paperwidth}
     \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
     % Visible text.  This says Underline all of { \FCName (but huge and dark grey) and all available horizontal space and a messy bit of text after it.}
