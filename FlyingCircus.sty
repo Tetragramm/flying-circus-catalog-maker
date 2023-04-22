@@ -4,7 +4,9 @@
 \RequirePackage[normalem]{ulem}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{nicematrix}
+\RequirePackage{calc}
 \RequirePackage{tikz}
+\RequirePackage{tikzpagenodes}
 \RequirePackage{multicol}
 \RequirePackage{hyperref}
 \RequirePackage{ragged2e}
@@ -120,7 +122,7 @@
     \end{tikzpicture}
 }
 \fancyfoot[LO]{
-    \hspace{0.05\paperwidth} {\Kochfont\Large\thepage} \hspace{0.05\paperwidth}
+    {\Kochfont\Large\thepage} \hspace{0.05\paperwidth}
     \begin{tikzpicture}
         \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.3\paperwidth,0) {};
         \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {};
@@ -142,7 +144,7 @@
             }
         \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
     \end{tikzpicture}
-    \hspace{0.05\paperwidth} {\Kochfont\Large\thepage} \hspace{0.05\paperwidth}
+    \hspace{0.05\paperwidth} {\Kochfont\Large\thepage}
 }
 
 \fancypagestyle{LancerFancyTOC}{%
@@ -173,8 +175,8 @@
     }
 }
 
+\newlength{\picvert}
 \makeatother
-
 % Testing image sizing
 \newsavebox\mybox
 
@@ -269,7 +271,7 @@
             Reliability = \FrameDefault{0}, Fuel Uses = \FrameDefault{10}, Stress = \FrameDefault{1},
             Size = \FrameDefault{Large Size}, Cargo = \FrameDefault{Tiny Cargo},
             Crew = {}, Box Text = {}, Box Loc = {north east},
-            Facing Image = {NoImageFound}, Text Gap = {0.62}
+            Facing Image = {NoImageFound}, Text Offset = {0pt}
         },
     Name/.store in = \FCName,
     Name/.value required,
@@ -291,7 +293,7 @@
     Box Text/.store in = \FCBoxText,
     Box Loc/.store in = \FCBoxLoc,
     Facing Image/.store in = \FCFacingImage,
-    Text Gap/.store in = \FCTextGap,
+    Text Offset/.store in = \FCTextOffset,
 }
 % Actual command
 \newcommand{\FCVehicle}[2][]{%
@@ -313,9 +315,13 @@
             };}
     \end{tikzpicture}
 
-    \vspace{\FCTextGap\paperwidth}
+    \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCFacingImage}}
+    \SetToRatio\aspectratio{\dimexpr\ht\mybox+\dp\mybox\relax}{\wd\mybox}
+    \setlength{\picvert}{\aspectratio\paperwidth - 1in}
+    \setlength{\picvert}{\picvert - \voffset}
+    \setlength{\picvert}{\picvert + \FCTextOffset}
+    \vspace{\picvert}
 
-    \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
     \uline{{\huge \textcolor{DarkGray}{\FCName}}\hfill}
     \Large\normalfont\noindent\justify
@@ -405,6 +411,7 @@
             }
         \end{tikzpicture}
     \end{center}
+    \phantomsection
     \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCImage}}
     \SetToRatio\aspectratio{\dimexpr\ht\mybox+\dp\mybox\relax}{\wd\mybox}
     \vspace{\aspectratio\paperwidth}
@@ -413,7 +420,6 @@
     % \phantomsection puts a "break" so it knows to actually go there.  Totally invisible, but 
     % when you click on the page number in the table of contents, this is the spot it goes.
     \par
-    \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
     % Visible text.  This says Underline all of { \FCName (but huge and dark grey) and all available horizontal space and a messy bit of text after it.}
     % So the name is on the left, and the rest of the text is pushed all the way right by hfill, and it's all underlined.  Just replace the messy bit of 
@@ -513,11 +519,11 @@
             };
         \end{tikzpicture}
     \end{center}
+    \phantomsection
     \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCImage}}
     \SetToRatio\aspectratio{\dimexpr\ht\mybox+\dp\mybox\relax}{\wd\mybox}
     \vspace{\aspectratio\paperwidth}
     \par
-    \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
     \begin{Kochfont}
         \Huge \FCName
@@ -620,7 +626,6 @@
     \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCImage}}
     \SetToRatio\aspectratio{\dimexpr\ht\mybox+\dp\mybox\relax}{\wd\mybox}
     \vspace{\aspectratio\paperwidth}
-    \phantomsection
     \addcontentsline{toc}{section}{ \FCName }
     % Visible text.  This says Underline all of { \FCName (but huge and dark grey) and all available horizontal space and a messy bit of text after it.}
     % So the name is on the left, and the rest of the text is pushed all the way right by hfill, and it's all underlined.  Just replace the messy bit of 
