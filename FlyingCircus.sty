@@ -1,3 +1,5 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{FlyingCircus}
 
 \RequirePackage[a4paper, margin=0.75in]{geometry}
 \RequirePackage{graphicx}
@@ -21,7 +23,19 @@
 \RequirePackage[skins]{tcolorbox}
 \RequirePackage{etoc}
 \RequirePackage{pgf-pie}
-\RequirePackage{parskip}
+\RequirePackage[skip=2pt plus1pt]{parskip}
+\RequirePackage{kvoptions}
+
+\DeclareVoidOption{OrigBox}{\renewcommand{\UseDefaultBox}{Yes}}
+\DeclareVoidOption{Wingdings}{\renewcommand{\SetPropSymbol}{
+        % Import FlyingCircus.sty
+        \newfontfamily\wingd{wingdings}
+        %This is the propeller symbol
+        \newunicodechar{✣}{{\wingd \symbol{"F0CB}}}}}
+
+\newcommand{\UseDefaultBox}{}
+\newcommand{\SetPropSymbol}{\newunicodechar{✣}{{\matdes \symbol{"F1A29}}}}
+\ProcessKeyvalOptions*
 
 % Set up the link styles, shouldn't need to modify
 \hypersetup{
@@ -53,7 +67,7 @@
     Path=./fonts/,
 ]
 %This is the propeller symbol
-\newunicodechar{✣}{{\matdes \symbol{"F1A29}}}
+\SetPropSymbol
 
 %Load Flying Cirucs logo font
 \newfontfamily\Kochfont{Koch-Fraktur.ttf}[
@@ -133,7 +147,6 @@
         \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
     \end{tikzpicture}
 }
-
 \fancyfoot[RE]{
     \begin{tikzpicture}
         \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.3\paperwidth,0) {};
@@ -176,12 +189,11 @@
 }
 
 \newlength{\picvert}
-\makeatother
 % Testing image sizing
 \newsavebox\mybox
 
-% https://tex.stackexchange.com/a/383700/4686
 \makeatletter
+% https://tex.stackexchange.com/a/383700/4686
 \newcommand\SetToRatio[3]{% sets #1 to be the ratio #2/#3, where #2 and #3 
     % are lengths (registers or expressions).
     % The ratio #2/#3 should evaluate to less than 16384 in absolute value to 
@@ -192,7 +204,6 @@
         \numexpr\dimexpr#2\relax*65536/\dimexpr#3\relax\relax sp\relax}%
 }
 \makeatother
-
 
 %Custom command for inserting cover picture.  Try three different file formats.
 \newcommand{\InsertFCCoverPicture}{
@@ -307,12 +318,13 @@
             \includegraphics[width=\paperwidth, keepaspectratio]{\FCFacingImage}
         };
         \ifdefempty{\FCBoxText}{}{
-            \node[draw,fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=1cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
+            \node[fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=1cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
                 \large
-                \begin{NiceTabular}{l}[hvlines]
+                \begin{NiceTabular}{l}[rules/color=[gray]{0.75}, rules/width=1pt, hvlines]
                     \FCBoxText
                 \end{NiceTabular}
-            };}
+            };
+        }
     \end{tikzpicture}
 
     \sbox{\mybox}{\includegraphics[draft, width=\paperwidth, keepaspectratio]{\FCFacingImage}}
@@ -403,11 +415,19 @@
             };
 
             \ifdefempty{\FCBoxText}{}{
-                \node[draw,fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=1cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
-                    \large
-                    \begin{NiceTabular}{cc}[hvlines]
-                        \FCBoxText
-                    \end{NiceTabular}};
+                \ifdefempty{\UseDefaultBox}{
+                    \node[fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=2cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
+                        \large
+                        \begin{NiceTabular}{cc}[rules/color=[gray]{0.75}, rules/width=1pt, hvlines]
+                            \FCBoxText
+                        \end{NiceTabular}};
+                }{
+                    \node[fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=2cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
+                        \large
+                        \begin{NiceTabular}{|ll|}[rules/color=[gray]{0.75}, rules/width=1pt, hlines]
+                            \FCBoxText
+                        \end{NiceTabular}};
+                }
             }
         \end{tikzpicture}
     \end{center}
@@ -428,10 +448,11 @@
         \hfill
         \large \textcolor{MidGray}{\ifdefempty{\FCPrice}{}{\FCPrice þ New\ifdefempty{\FCUsed}{}{,}} \ifdefempty{\FCUsed}{}{\FCUsed þ Used}}}
 
-    \vspace{-0.4\baselineskip}
+    \vspace{-0.2\baselineskip}
     % More text right under the line, again with hfill to pus the rest right
     \Large \textcolor{DarkGray}{\textit{``\FCNickname''}} \hfill \large \textcolor{MidGray}{\FCUpkeep þ Upkeep}
 
+    \vspace{-0.2\baselineskip}
     \large
     \begin{NiceTabular}{ccccc}[first-row, first-col, hvlines, rules/width=1pt]
          & Boost & Handling & Climb & Stall & Speed \\
@@ -449,7 +470,6 @@
         }
     \end{NiceTabular}
     \par
-    \vspace{\baselineskip}
     \centering
     \begin{NiceTabular}{c}[columns-width=0.9\textwidth,hvlines, rules/width=1pt]
         \FCPropulsion    \\
