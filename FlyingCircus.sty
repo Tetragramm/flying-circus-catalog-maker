@@ -416,13 +416,13 @@
 
             \ifdefempty{\FCBoxText}{}{
                 \ifdefempty{\UseDefaultBox}{
-                    \node[fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=2cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
+                    \node[fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer xsep=2cm, outer ysep=0.5cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
                         \large
                         \begin{NiceTabular}{cc}[rules/color=[gray]{0.75}, rules/width=1pt, hvlines]
                             \FCBoxText
                         \end{NiceTabular}};
                 }{
-                    \node[fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer sep=2cm, anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
+                    \node[fill=white, fill opacity=0.7, text opacity=1, inner sep=0pt, outer xsep=2cm, outer ysep=0.5cm,anchor=\FCBoxLoc] at (image.\FCBoxLoc) {
                         \large
                         \begin{NiceTabular}{|ll|}[rules/color=[gray]{0.75}, rules/width=1pt, hlines]
                             \FCBoxText
