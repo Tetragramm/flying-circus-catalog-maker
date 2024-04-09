@@ -1,5 +1,5 @@
 \documentclass[twoside,headings,a4paper]{article}
-\usepackage{FlyingCircus}
+\usepackage[Wingdings, OrigBox]{FlyingCircus}
 
 \begin{document}
 
@@ -42,6 +42,12 @@
     % And the Plane Builder Link.  It's a multi-column environment, so just use 
     % \columnbreak to go to the second column, or let it wrap by itself automatically.
 }
+\begin{tikzpicture}[remember picture, overlay]
+    \node[text opacity=1, inner sep=0pt, outer sep=1cm, anchor=north east] at (image.north east) {
+        \contourlength{1pt} %how thick each copy is
+        \contour{black}{\textcolor{white}{\fontsize{50}{60}\Kochfont{}Bonus?}}
+    };
+\end{tikzpicture}
 
 %Note that Price is empty.  This plane cannot be bought new, for flavor reasons.
 % If Price, Used, or Both are empty, the appropriate sections will be missing.
@@ -179,5 +185,405 @@ Oh, what's that?  Hey, look at THAT thing! No, that other thing.  Where are we g
     offshore have become fortified towns.
 }
 
+\newpage
+
+\FCGroundWeapon[Name = Rifle/Carbine, Price = {}, Hits = 1, Damage = 2, AP = 1, Range = Extreme, Tags = Manual, Image={Rifle}]
+{
+    Bolt or lever-action rifles left over from the war. Pilots often saw off their
+    stocks and cut down their barrels for ease of use in cramped aeroplanes.
+}
+
+\FCGroundWeapon[Name = Self Loading Pistol, Price = {1}, Hits = 2, Damage = 1, AP = 0, Range = Knife, Tags = {One-Handed, Holstered}]
+{
+    The weapon of choice of most pilots, these weapons are compact and can
+    put out a lot of lead for their size.
+}
+
+\vspace{2in}
+
+\FCPlaneWeapon[Name = Machine-Gun (MG), Price = {2}, Hits = 4, Damage = 2, AP = 1, Ammo=10, Tags = {Rapid Fire, Jam 1/2}]
+{
+    This covers closed-bolt, gas-operated machine-guns firing bullets around
+    8mm in diameter, the most common sort on aircraft.
+}
+
+
+\FCPlaybook[Name={A Worker}, SubHeader={INdustrial Town}]{
+    \textit{The Old World might be gone, but many of its technological wonders persist, and to
+        keep them going, those towns that can still support industry work double-hard. Many
+        people, be they refugees from the old cities or poor folks from across the world, come
+        to these places in hopes of steady work. They’ll find it, more often than not, but that
+        labour is frequently backbreaking and the compensation paltry. Compared to that,
+        who wouldn’t want to take to the skies?}
+
+    \PlaybookParagraph{Name}{Choose, or write your own.}
+
+    Anthony, Dietrich, Gunter, Hans, Hermann, Jan, Klaus, Werner, Willy
+
+    Bertha, Emma, Gertrud, Hilda, Ilse, Ingrid, Karla, Mercédès
+
+    \hfill Moser, Scheffler, Hamann, Muller, Schmidt, Weber, Becker, Bauer
+
+    Age Range: Youth (16-22), Adult (23-30)
+
+    \PlaybookParagraph{Current Residence}{Choose or write your own.}
+
+    Choose a town from another playbook, though it is far behind you now.
+
+    \PlaybookParagraph{People}{Choose all that apply.}
+
+    Städter, Himmilvolk, Rishonim, or any other.
+
+    \PlaybookParagraph{Expectations}{Tell the table or write it out.}
+
+    This is an archetypical image of a Worker. What resonates with you? What doesn’t?
+    \begin{itemize}
+        \item Masculine, feminine, or nonbinary.
+        \item Responsible, organized, hardworking, never complains. Always tired.
+        \item Worn, sore, gone to seed. Hands rough, stained, often scarred.
+        \item Simple, drab, cheap clothing, hard-wearing enough for the job ahead.
+    \end{itemize}
+
+    \PlaybookParagraph{Character History}{Choose all that apply.}
+
+    I was taught to fly by\dots{}\\
+    \begin{NiceTabular}{XX}
+        \textbullet{} \dots{} an expensive training course.         &
+        \textbullet{} \dots{} a family member, passing it on.         \\
+        \textbullet{} \dots{} an instructor when I was conscripted. &
+        \textbullet{} \dots{} nobody, I’m just winging it.
+    \end{NiceTabular}
+
+    I left my home because \dots{}\\
+    \begin{NiceTabular}{XXX}
+        \textbullet{} \dots{} jobs dried up.           &
+        \textbullet{} \dots{} it was killing me.       &
+        \textbullet{} \dots{} they learned I was queer.  \\
+        \textbullet{} \dots{} I got hurt and fired.    &
+        \textbullet{} \dots{} I want something better. &
+        \textbullet{} \dots{} I broke the law.
+    \end{NiceTabular}
+
+    I fly so that I can make some money and so I can\dots{}\\
+    \begin{NiceTabular}{XX}
+        \textbullet{} \dots{} make sure my kids have it better. &
+        \textbullet{} \dots{} finally get on that adventure.      \\
+        \textbullet{} \dots{} do something with my life.        &
+        \textbullet{} \dots{} break free of my obligations.       \\
+        \textbullet{} \dots{} maybe retire, ever.               &
+        \textbullet{} \dots{} escape the town I’ve been stuck in. \\
+        \textbullet{} \dots{} pay off some serious debts.       &
+        \textbullet{} \dots{} find a reason to keep going.
+    \end{NiceTabular}
+
+    \vfill
+    \columnbreak
+    \PlaybookParagraph{Questions}{Write your answers, and speak them.}
+    \begin{itemize}
+        \item What were you, before you were another anonymous worker?
+              \begin{itemize}
+                  \item \underline{Take 2 Personal Moves} from another playbook (or 1 Student move) to represent this
+                        origin, or two additional Worker moves if this is all you’ve ever known.
+              \end{itemize}
+        \item What was your dream job, as a child? What job did you actually end up working?
+        \item Where are your family staying, if not with you?
+    \end{itemize}
+
+    \PlaybookParagraph{Trust}{Ask and record answers.}
+
+    You trust everyone. They’re your co-workers, you’re not here for drama.
+    \PlaybookRuleR
+    {\LARGE\Kochfont Start With\dots}
+
+    \PlaybookParagraph{Assets}{Choose 3.}
+
+    \begin{NiceTabular}{XX}
+        \circ{} A plane large enough to carry your family. &
+        \circ{} Two co-workers with special skills.          \\
+        \circ{} A simple, robust sidearm.                  &
+        \circ{} A house somewhere relatively safe.           \\
+        \circ{} A membership in a large union.             &
+        \circ{} A set of solid boots.
+    \end{NiceTabular}
+
+    \PlaybookParagraph{Dependents}{Choose 2.}
+
+    \begin{NiceTabular}{XX}
+        \circ{} A spouse without meaningful income. &
+        \circ{} A sibling, unable to work.            \\
+        \circ{} A parent, now old and infirm.       &
+        \circ{} A close friend, disabled.             \\
+        \circ{} A number of small children.         &
+        \circ{} An apprentice, learning your trade.
+    \end{NiceTabular}
+
+    \PlaybookParagraph{Planes}{Choose 1, or a plane worth up to 15þ.}
+
+    \begin{NiceTabular}{ll}
+        \circ{} Theler KanonenKobra MB (Used) &
+        \circ{} Kreuzer Skorpion (Used)         \\
+        \circ{} König-Werke Adler-N (Used)    &
+        \circ{} Markgraf Volksfestung A (Used)
+    \end{NiceTabular}
+
+    \PlaybookParagraph{Familiar Vices}{Choose 2.}
+
+    \begin{NiceTabular}{lXXX}
+        \circ{} Drinking  &
+        \circ{} Tobacco   &
+        \circ{} Music     &
+        \circ{} Reading     \\
+        \circ{} Opiates   &
+        \circ{} Cannabis  &
+        \circ{} Bickering &
+        \circ{} Sleeping
+    \end{NiceTabular}
+
+    \PlaybookRuleR
+
+    \begin{center}
+        {\centering Choose, and add +1 to a stat.}
+    \end{center}
+
+    \begin{NiceTabular}[rules/width=0.5mm]{XXXX X XXXX}
+        \Block{1-4}{\centering \uline{\fauxsc{Jobber}}}                &
+                                                                       &
+                                                                       &
+                                                                       &
+                                                                       &
+        \Block{1-4}{\centering \uline{\fauxsc{Worn Down}}}             &
+                                                                       &
+                                                                       &
+        \\
+        \Block{1-4}{\centering Let’s get paid and go home.}            &
+                                                                       &
+                                                                       &
+                                                                       &
+                                                                       &
+        \Block{1-4}{\centering Just punching the clock.}               &
+                                                                       &
+                                                                       &
+        \\
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Hard}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Keen}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Calm}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Daring}} &
+                                                                       &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Hard}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Keen}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Calm}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Daring}}   \\
+        \Block[hvlines]{1-1}{+1}                                       &
+        \Block[hvlines]{1-1}{+1}                                       &
+        \Block[hvlines]{1-1}{+1}                                       &
+        \Block[hvlines]{1-1}{+1}                                       &
+                                                                       &
+        \Block[hvlines]{1-1}{+2}                                       &
+        \Block[hvlines]{1-1}{+2}                                       &
+        \Block[hvlines]{1-1}{+2}                                       &
+        \Block[hvlines]{1-1}{-4}                                         \\
+        \\
+        \Block{1-4}{\centering \uline{\fauxsc{New Lease on Life}}}     &
+                                                                       &
+                                                                       &
+                                                                       &
+                                                                       &
+        \Block{1-4}{\centering \uline{\fauxsc{Safety Inspector}}}      &
+                                                                       &
+                                                                       &
+        \\
+        \Block{1-4}{\centering Beats going back to the mines!}         &
+                                                                       &
+                                                                       &
+                                                                       &
+                                                                       &
+        \Block{1-4}{\centering No point taking extra risks.}           &
+                                                                       &
+                                                                       &
+        \\
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Hard}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Keen}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Calm}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Daring}} &
+                                                                       &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Hard}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Keen}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Calm}}   &
+        \Block[color=black,fill=black]{1-1}{\textcolor{white}{Daring}}   \\
+        \Block[hvlines]{1-1}{+2}                                       &
+        \Block[hvlines]{1-1}{-1}                                       &
+        \Block[hvlines]{1-1}{-1}                                       &
+        \Block[hvlines]{1-1}{+2}                                       &
+                                                                       &
+        \Block[hvlines]{1-1}{-2}                                       &
+        \Block[hvlines]{1-1}{+2}                                       &
+        \Block[hvlines]{1-1}{+4}                                       &
+        \Block[hvlines]{1-1}{-2}
+    \end{NiceTabular}
+
+    \pagebreak
+
+    \begin{multicols}{2}
+        {
+            \Kochfont \large
+            \rule{\columnwidth}{0.5mm}\\
+            Name\\
+            \\
+            \rule{0.45\columnwidth}{0.5mm}\hspace{0.1\columnwidth}\rule{0.45\columnwidth}{0.5mm}\\
+            Age \hspace{0.45\columnwidth} Pronouns
+        }
+        \columnbreak
+        \begin{tikzpicture}
+            \node [draw, thick, circle, minimum size=14mm, xshift=3mm] (h) {};
+            \node [below of=h] {\large\fauxsc{Hard}};
+            \node [draw, thick, circle, minimum size=14mm, right of=h, xshift=6mm] (k) {};
+            \node [below of=k] {\large\fauxsc{Keen}};
+            \node [draw, thick, circle, minimum size=14mm, right of=k, xshift=6mm] (c) {};
+            \node [below of=c] {\large\fauxsc{Calm}};
+            \node [draw, thick, circle, minimum size=14mm, right of=c, xshift=6mm] (d) {};
+            \node [below of=d] {\large\fauxsc{Daring}};
+        \end{tikzpicture}
+    \end{multicols}
+    \PlaybookRuleL
+
+    \begin{tikzpicture}
+        \node (txt) {\Large\Kochfont Stress};
+        \node [draw, thick, circle, minimum size=5mm, right of=txt] (a) {};
+        \node [draw, thick, circle, minimum size=5mm, xshift=-3mm, right of=a] (b) {};
+        \node [draw, thick, circle, minimum size=5mm, xshift=-3mm, right of=b] (c) {};
+        \node [draw, thick, circle, minimum size=5mm, xshift=-3mm, right of=c] (d) {};
+        \node [draw, fill, right of=d, xshift=15mm, minimum width=43mm, minimum height=8mm] (box) {};
+        \node [draw=white, thick, circle, minimum size=5mm, xshift=-3mm, right of=d, fill=white] (e) {};
+        \node [draw=white, thick, circle, minimum size=5mm, xshift=-3mm, right of=e, fill=white] (f) {};
+        \node [draw=white, thick, circle, minimum size=5mm, xshift=-3mm, right of=f, fill=white] (g) {};
+        \node [draw=white, thick, circle, minimum size=5mm, xshift=-3mm, right of=g, fill=white] (h) {};
+        \node [draw=white, thick, circle, minimum size=5mm, xshift=-3mm, right of=h, fill=white] (i) {};
+        \node [draw=white, thick, circle, minimum size=5mm, xshift=-3mm, right of=i, fill=white] (j) {};
+        \node [draw=white, ultra thick, dash pattern={on 1pt off 1pt}, circle, minimum size=6mm, xshift=-3mm, right of=i] (j) {};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \node (txt) {\Large\Kochfont XP};
+        \node [draw, xshift=10mm, minimum width=30mm, minimum height=8mm, right of=txt] (box) {};
+    \end{tikzpicture}
+
+    \begin{multicols*}{2}
+        \raggedcolumns
+        \uline{\Large\Kochfont Triggers\hfill}
+        \begin{itemize}
+            \item If you took a life. \dotfill{}1 Stress
+            \item If there was combat. \dotfill{}1 Stress
+            \item If your plane got shot. \dotfill{}1 Stress
+            \item If you were wounded. \dotfill{}2 Stress
+            \item If a comrade was wounded. \dotfill{}2 Stress
+            \item If your plane stopped working. \dotfill{}2 Stress
+            \item If you had to wingwalk. \dotfill{}1 Stress
+            \item If the job got out of hand. \dotfill{}2 Stress
+        \end{itemize}
+
+        \columnbreak
+
+        \uline{\Large\Kochfont Vents\hfill}
+        \begin{itemize}
+            \item Complain about your circumstances to a
+                  comrade.
+            \item Buy something nice for yourself.
+            \item Complain about pay to a comrade.
+            \item Stir up trouble with the employees.
+            \item Deliberately trigger End of Night by
+                  maxing out your Vice track.
+        \end{itemize}
+    \end{multicols*}
+    \PlaybookRuleL
+    \begin{NiceTabular}[rules/width=0.5mm]{X|X}
+        \Block{1-1}{
+            \uline{\Large\Kochfont Comrades\hfill \Large\Kochfont Trust?}
+
+            \hfill
+            \begin{tikzpicture}
+                \node [draw, very thick, circle, minimum size=6mm] (a) {};
+                \node [draw, very thick, circle, minimum size=6mm, yshift=0mm, below of=a] (b) {};
+                \node [draw, very thick, circle, minimum size=6mm, yshift=0mm, below of=b] (c) {};
+                \node [draw, very thick, circle, minimum size=6mm, yshift=0mm, below of=c] (d) {};
+            \end{tikzpicture}
+        } &
+        \Block{1-1}{\uline{{\Large\Kochfont Familiar Vices}\hfill}
+
+            \begin{tikzpicture}
+                \node [draw=white, very thick, circle, minimum size=6mm] (a) {};
+                \node [draw=white, very thick, circle, minimum size=6mm, yshift=0mm, below of=a] (b) {};
+                \node [draw=white, very thick, circle, minimum size=6mm, yshift=0mm, below of=b] (c) {};
+                \node [draw=white, very thick, circle, minimum size=6mm, yshift=0mm, below of=c] (d) {};
+            \end{tikzpicture}
+        }
+    \end{NiceTabular}
+    \PlaybookRuleL
+    \PlaybookParagraph{Intimacy Move}{Start with this move.}
+    \textbf{Share the Burden}: \textit{When you are intimate with comrades}, the Stress of all the characters
+    participating can be freely redistributed between them. If there are any NPC participants, 1
+    Stress is also removed from each PC.
+
+    \textit{If you use this move in the air}, 1 additional Stress is removed from each character.
+    \vfill
+
+    \columnbreak
+    \PlaybookParagraph{Personal Moves}{Take Stiff Masked and choose 3 more.}
+    \begin{itemize}
+        \renewcommand{\labelitemi}{{\LARGE\bullet}}
+        \item \textbf{Breadwinner}: Instead of personal upkeep, you have two Dependents. Write their names,
+              and mark 1 on one and 2 on the other. Each Routine, during Expenses, choose to pay 0,
+              1, or 2 Thaler for each Dependent. If you pay 0, erase one mark. If you pay 2, mark their
+              track and describe what special thing you do for them to make their lives easier.
+
+              A Dependent at 2 Marks removes 1 Stress per routine. A Dependent losing a Mark gives
+              1 Stress, and at 0 Marks they cause 2 Stress per routine.
+    \end{itemize}
+    \begin{NiceTabular}{XX}
+        \begin{tikzpicture}
+            \node [draw=black, thick, circle, minimum size=5mm] (a) {};
+            \node [draw=black, thick, circle, minimum size=5mm, xshift=-4.5mm, right of=a] (b) {};
+            \draw [line width=0.5mm] ($(a)+(-3.5mm,-2.6mm)$) -- ++(-40mm,0);
+        \end{tikzpicture}
+         &
+        \begin{tikzpicture}
+            \node [draw=black, thick, circle, minimum size=5mm] (a) {};
+            \node [draw=black, thick, circle, minimum size=5mm, xshift=-4.5mm, right of=a] (b) {};
+            \draw [line width=0.5mm] ($(a)+(-3.5mm,-2.6mm)$) -- ++(-40mm,0);
+        \end{tikzpicture}
+    \end{NiceTabular}
+    \PlaybookRuleR
+    \begin{itemize}
+        \renewcommand{\labelitemi}{{\large\circ}}
+        \item \textbf{There for You}: \textit{When you Get Real}, your target always loses 1 extra Stress.
+        \item \textbf{Get it Done}: Each Routine, hold 3. Spend that hold to score a partial hit on any roll,
+              without rolling first.
+        \item \textbf{Time Out}: \textit{When you intervene in a dispute}, \underline{roll +Calm}. On a hit, the conflict cannot
+              escalate to violence. 16+, everyone names a compromise they would be willing to make.
+        \item \textbf{Hard Drinking}: You may reroll two dice in the End of Night roll.
+        \item \textbf{Old Reliable}: After 3 Routines in the same plane, without it being modified or upgraded,
+              the plane gains +8 Toughness and +3 Reliability. This is once per plane, and the bonus is
+              removed if the plane is modified.
+        \item \textbf{No Drama}: The first time each Routine that somebody Vents with you as the victim,
+              instead of Stress you take 2 XP directly.
+        \item \textbf{Open Mind}: \textit{When you perform a Move Exchange}, both sides can learn as many moves
+              as they have XP for from one another, instead of just 1. Other playbook moves cost 1 less
+              XP to learn, and this character can teach any move they’ve learned.
+        \item \textbf{Domestic Bliss}: While you have 0 Stress, take +1 ongoing to all rolls outside of air combat.
+    \end{itemize}
+    \PlaybookRuleR
+    \PlaybookParagraph{Other Moves, \& Notes}{Start with 1 Mastery Move and 3þ.}
+
+    All your XP costs are doubled.
+    \vfill
+
+    \hfill
+    \begin{tikzpicture}[overlay]
+        \node [draw=black, thick, circle, minimum size=5mm, xshift=3mm, yshift=-24mm] (a) {};
+        \node [draw=black, thick, circle, minimum size=5mm, xshift=4.5mm, left=5.1mm of a] (b) {};
+        \node [draw=black, thick, circle, minimum size=5mm, xshift=4.5mm, left=5.1mm of b] (c) {};
+        \node [draw=black, thick, circle, minimum size=5mm, xshift=4.5mm, left=5.1mm of c] (d) {};
+        \node [draw=black, thick, circle, minimum size=5mm, xshift=4.5mm, left=5.1mm of d] (e) {};
+        \node [xshift=4.5mm, anchor=east, left=3.8mm of e](txt) {\Large\Kochfont Mastery Progress};
+    \end{tikzpicture}
+}
 
 \end{document}

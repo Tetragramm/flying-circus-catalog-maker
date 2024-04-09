@@ -1,31 +1,36 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{FlyingCircus}
 
-\RequirePackage[a4paper, margin=0.75in]{geometry}
+\RequirePackage[a4paper, left=0.75in, right=0.75in, top=0.25in, bottom=0.25in, headheight=38pt, includeheadfoot]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage[normalem]{ulem}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{nicematrix}
 \RequirePackage{calc}
 \RequirePackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{patterns,patterns.meta}
 \RequirePackage{tikzpagenodes}
-\RequirePackage{multicol}
+\RequirePackage[colaction]{multicol}
 \RequirePackage{hyperref}
 \RequirePackage{ragged2e}
 \RequirePackage{fontspec}
 \RequirePackage{nicefrac}
 \RequirePackage{datatool}
 \RequirePackage{fancyhdr}
-\RequirePackage{contour}
+\RequirePackage[auto]{contour}
 \RequirePackage{newunicodechar}
 \RequirePackage{xparse}
 \RequirePackage{pgfkeys}
 \RequirePackage[skins]{tcolorbox}
-\RequirePackage{etoc}
+\RequirePackage[linktoc=page]{etoc}
 \RequirePackage{pgf-pie}
 \RequirePackage[skip=2pt plus1pt]{parskip}
 \RequirePackage{kvoptions}
 \RequirePackage[final]{pdfpages}
+\RequirePackage{pdflscape}
+\RequirePackage{mdframed}
 
 \DeclareVoidOption{OrigBox}{\renewcommand{\UseDefaultBox}{Yes}}
 \DeclareVoidOption{Wingdings}{\renewcommand{\SetPropSymbol}{
@@ -78,6 +83,21 @@
     RawFeature=+shuffle,
 ]
 
+% Definition of \fauxsc, used in \KeyWord to turn it into Small Caps
+% Original by: Steven B. Segletes @ StackExchange
+% Source: https://tex.stackexchange.com/a/225078
+\makeatother
+\newcommand\fauxsc[1]{\fauxschelper#1 \relax\relax}
+\def\fauxschelper#1 #2\relax{%
+    \fauxschelphelp#1\relax\relax%
+    \if\relax#2\relax\else\ \fauxschelper#2\relax\fi%
+}
+\def\Hscale{.78}\def\Vscale{.83}\def\Cscale{1.00}
+\def\fauxschelphelp#1#2\relax{%
+    \ifnum`#1=\lccode`#1\relax\scalebox{\Hscale}[\Vscale]{\char\uccode`#1}\else%
+    \scalebox{\Cscale}[1]{#1}\fi%
+    \ifx\relax#2\relax\else\fauxschelphelp#2\relax\fi}
+
 % Define colors =====================
 \definecolor{DarkGray}{gray}{0.4}
 \definecolor{MidGray}{gray}{0.5}
@@ -94,7 +114,10 @@
 
 % Constants for the fancy outlined logo
 \contourlength{2pt} %how thick each copy is
-\contournumber{20}  %number of copies
+
+% Squish the itemize together a bit.  Less space
+\let\olditemize=\itemize \let\endolditemize=\enditemize \renewenvironment{itemize}{\olditemize \itemsep0.1em}{\endolditemize}
+\multicolsep = 0pt
 
 %% Fancy header and footer=================================
 \pagestyle{fancy}
@@ -138,31 +161,31 @@
     \end{tikzpicture}
 }
 \fancyfoot[LO]{
-    {\Kochfont\Large\thepage} \hspace{0.05\paperwidth}
+    {\Kochfont\Large\thepage} \hfill
     \begin{tikzpicture}
-        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.3\paperwidth,0) {};
+        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.35\paperwidth,0) {};
         \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {};
-        \draw [line width=0.75mm] (-0.3\paperwidth,0) -- (0.4\paperwidth,0);
+        \draw [line width=0.75mm] (-0.35\paperwidth,0) -- (0.4\paperwidth,0);
         \foreach \x in {
-                -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+                -0.33, -0.32, -0.31, -0.30, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
             }
         \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
     \end{tikzpicture}
 }
 \fancyfoot[RE]{
     \begin{tikzpicture}
-        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.3\paperwidth,0) {};
+        \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.35\paperwidth,0) {};
         \node [draw, circle, fill=black, minimum size=3mm] (r) at (0.4\paperwidth,0) {};
-        \draw [line width=0.75mm] (-0.3\paperwidth,0) -- (0.4\paperwidth,0);
+        \draw [line width=0.75mm] (-0.35\paperwidth,0) -- (0.4\paperwidth,0);
         \foreach \x in {
-                -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
+                -0.33, -0.32, -0.31, -0.30, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38
             }
-        \draw [line width=0.75mm] (\x\paperwidth+0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth-0.01\paperwidth,-0.01\paperwidth);
+        \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
     \end{tikzpicture}
-    \hspace{0.05\paperwidth} {\Kochfont\Large\thepage}
+    \hfill {\Kochfont\Large\thepage}
 }
 
-\fancypagestyle{LancerFancyTOC}{%
+\fancypagestyle{FancyTOC}{%
     \fancyhf{}
     \renewcommand{\headrule}{}
     \renewcommand{\footrule}{}
@@ -186,6 +209,43 @@
                     -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12, -0.11, -0.1, -0.09, -0.08, -0.07, -0.06, -0.05, -0.04, -0.03, -0.02, -0.01, 0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19
                 }
             \draw [line width=0.75mm] (\x\paperwidth-0.01\paperwidth,0.01\paperwidth) -- (\x\paperwidth+0.01\paperwidth,-0.01\paperwidth);
+        \end{tikzpicture}
+    }
+}
+
+\fancypagestyle{PlaybookStyle}{%
+    \fancyhf{}
+    \renewcommand{\headrule}{}
+    \renewcommand{\footrule}{}
+    \fancyhead[C]{%The Left style header is on Odd pages
+        \begin{tikzpicture}[remember picture, overlay]
+            \node [draw, circle, fill=black, minimum size=3mm] (l) at (-0.45\paperwidth,0) {};
+            \node [draw, circle, fill=black, minimum size=3mm] (r) at (-0.45\paperwidth,-0.93\paperheight) {};
+            \draw [line width=0.75mm] (-0.45\paperwidth,0) -- (-0.45\paperwidth,-0.93\paperheight);
+            \draw [line width=0.5mm] (-0.45\paperwidth+0.007\paperwidth,0) -- (-0.45\paperwidth+0.007\paperwidth,-0.93\paperheight);
+            \draw [line width=0.5mm] (-0.45\paperwidth-0.007\paperwidth,0) -- (-0.45\paperwidth-0.007\paperwidth,-0.93\paperheight);
+
+            \node [draw, circle, fill=black, minimum size=6mm] at (0.45\paperwidth,-0.83\paperheight) {};
+            \node [draw, circle, fill=black, minimum size=6mm] at (0.45\paperwidth,-0.1\paperheight) {};
+            \draw [line width=0.5mm] (0.455\paperwidth,-0.83\paperheight) -- (0.455\paperwidth,-0.1\paperheight);
+            \draw [line width=0.5mm] (0.445\paperwidth,-0.83\paperheight) -- (0.445\paperwidth,-0.1\paperheight);
+            \foreach \x in {
+                    -0.81, -0.80, -0.79, -0.78, -0.77, -0.76, -0.75, -0.74, -0.73, -0.72, -0.71, -0.7, -0.69, -0.68, -0.67, -0.66, -0.65, -0.64, -0.63, -0.62, -0.61, -0.6, -0.59, -0.58, -0.57, -0.56, -0.55, -0.54, -0.53, -0.52, -0.51, -0.5, -0.49, -0.48, -0.47, -0.46, -0.45, -0.44, -0.43, -0.42, -0.41, -0.4, -0.39, -0.38, -0.37, -0.36, -0.35, -0.34, -0.33, -0.32, -0.31, -0.3, -0.29, -0.28, -0.27, -0.26, -0.25, -0.24, -0.23, -0.22, -0.21, -0.2, -0.19, -0.18, -0.17, -0.16, -0.15, -0.14, -0.13, -0.12
+                }
+            \draw [line width=1mm] (0.45\paperwidth-0.01\paperheight, \x\paperheight+0.01\paperheight) -- (0.45\paperwidth+0.01\paperheight, \x\paperheight-0.01\paperheight);
+
+            \draw [line width=0.75mm] (-0.45\paperwidth,-0.47\paperheight) -- (0.45\paperwidth,-0.47\paperheight);
+            \draw [line width=0.25mm] (-0.45\paperwidth,+0.25mm) -- (\paperwidth,+0.25mm);
+            \draw [line width=0.25mm] (-0.45\paperwidth,-0.25mm) -- (\paperwidth,-0.25mm);
+            \draw [line width=0.25mm] (-0.45\paperwidth,-0.93\paperheight+0.25mm) -- (\paperwidth,-0.93\paperheight+0.25mm);
+            \draw [line width=0.25mm] (-0.45\paperwidth,-0.93\paperheight-0.25mm) -- (\paperwidth,-0.93\paperheight-0.25mm);
+
+            \node (text) at (-0.45\paperwidth+0.003\paperwidth,-0.465\paperheight) {
+                \rotatebox{90}{\contour{white}{\Kochfont\Large Flying Circus}}
+            };
+            \node (text2) at (0.45\paperwidth+0.003\paperwidth, -0.465\paperheight) {
+                \rotatebox{90}{\contour{white}{\Kochfont\Huge \rightmark}}
+            };
         \end{tikzpicture}
     }
 }
@@ -225,7 +285,7 @@
 
             \let\cleardoublepage\clearpage
             \begin{titlepage}
-                \thispagestyle{LancerFancyTOC}
+                \thispagestyle{FancyTOC}
                 \begin{center}
 
                     \vspace{0.1\pageheight}
@@ -271,7 +331,7 @@
 %%%%% Command for Making a Flying Circus Vehicle %%%%
 % This is used for making magenta text to show when keys aren't being set.
 \newcommand{\FrameDefault}[1]{\tcbox[colframe=magenta,colback=magenta,nobeforeafter,size=tight]{\textcolor{white}{#1}}}
-% Define the keys for \Lancer Frame
+
 % The \FrameDefalt shows when things aren't set.
 \pgfkeys{
     /FCVehicle/.is family, FCVehicle,
@@ -484,6 +544,7 @@
             \vspace{.5\baselineskip}
         }
     \end{NiceTabular}
+    \vspace{0.2\baselineskip}
     % If you want two columns of text, do this, otherwise just 
     % \large \justify #2
     \begin{multicols}{2}
@@ -501,7 +562,7 @@
     \end{center}
 }
 
-% Define the keys for \Lancer Frame
+
 % The \FrameDefalt shows when things aren't set.
 \pgfkeys{
     /FCShip/.is family, FCShip,
@@ -597,7 +658,7 @@
 }
 
 %%%%% Command for Making a Flying Circus Vehicle %%%%
-% Define the keys for \Lancer Frame
+
 % The \FrameDefalt shows when things aren't set.
 \pgfkeys{
     /FCVehicleOnePage/.is family, FCVehicleOnePage,
@@ -671,19 +732,192 @@
             \FCCrew
         \end{NiceTabular}
     \end{center}
-
-
-
 }
 
+\newcommand{\PlaybookRuleL}{
+    \begin{center}
+        \makebox[\linewidth]{\hspace{-0.041\columnwidth}\rule{1.070\columnwidth}{0.5mm}}
+    \end{center}
+}
+\newcommand{\PlaybookRuleR}{
+    \begin{center}
+        \makebox[\linewidth]{\hspace{0.065\columnwidth}\rule{1.09\columnwidth}{0.5mm}}
+    \end{center}
+}
 
+\newcommand{\PlaybookParagraph}[2]{
+    \uline{\Large {\Kochfont #1} \hfill\normalsize\textit{#2}}
+}
+
+% Define the keys for \FCGroundWeapon
+% The \FrameDefalt shows when things aren't set.
+\pgfkeys{
+    % This is a "variable family"  Doesn't matter, just set to your function name.
+    /FCGroundWeapon/.is family, FCGroundWeapon,
+    default/.style =
+        {
+            Name = \FrameDefault{Rifle/Carbine}, Price = {},
+            Hits = {}, Damage = {}, AP = {}, Range = {}, Tags = {},
+            Image = {}
+        },
+    % Then there's the list of /.store in = 
+    % This is how you translate the names in the function call into LaTeX macros
+    % You need one for every key you're going to actually use
+    Name/.store in = \FCName,
+    Price/.store in = \FCPrice,
+    Hits/.store in = \FCHits,
+    Damage/.store in = \FCDamage,
+    AP/.store in = \FCAP,
+    Range/.store in = \FCRange,
+    Tags/.store in = \FCTags,
+    Image/.store in = \FCImage,
+}
+% Define a new command named FCGroundWeapon, with 2 arguments, the keys, and a a second one
+\newcommand{\FCGroundWeapon}[2][]{
+    \pgfkeys{FCGroundWeapon, default, #1}% Load the keys in the FCGroundWeapon family, 
+    % then the default values, then the values passed in by the first argument
+
+    % Create a picture across the top of the page using \FCImage, 
+    % using the min of the width of the text, or 1/3 the page vertically to set the size
+    % Also, if the variable \FCBoxText was filled, make a box in the corner \FCBoxLoc with that text inside a table.
+    % Can remove the bit about NiceTabular to make it just a box of text.  See FCVehicle for that.
+    \phantomsection
+    \ifdefempty{\FCImage}{}{\includegraphics[width=\textwidth, keepaspectratio]{\FCImage}}
+
+    \addcontentsline{toc}{subsection}{ \FCName }
+    % Visible text.  This says Underline all of { \FCName (but huge and dark grey) and all available horizontal space and a messy bit of text after it.}
+    % So the name is on the left, and the rest of the text is pushed all the way right by hfill, and it's all underlined.  Just replace the messy bit of 
+    % text with the price.  FCPlane can have both, either, or neither of new and used prices.
+    \uline{{\huge \textcolor{DarkGray}{\FCName}}
+        \hfill
+        \huge \textcolor{MidGray}{\ifdefempty{\FCPrice}{Scrip}{\FCPrice þ}}}
+
+    \vspace{-0.2\baselineskip}
+
+    \textit{#2}
+
+    \begin{NiceTabular}{XXXXXXXX}[hvlines]
+        \Block[fill=black]{1-1}{\textcolor{white}{Hits}} & \Block{1-1}{\FCHits} & \Block[fill=black]{1-1}{\textcolor{white}{Damage}} & \Block{1-1}{\FCDamage} &
+        \Block[fill=black]{1-1}{\textcolor{white}{AP}}   & \Block{1-1}{\FCAP}   & \Block[fill=black]{1-1}{\textcolor{white}{Range}}  & \Block{1-1}{\FCRange}    \\
+        \Block[l]{1-8}{\FCTags}
+    \end{NiceTabular}
+}
+
+% Define the keys for \FCPlaneWeapon
+% The \FrameDefalt shows when things aren't set.
+\pgfkeys{
+    % This is a "variable family"  Doesn't matter, just set to your function name.
+    /FCPlaneWeapon/.is family, FCPlaneWeapon,
+    default/.style =
+        {
+            Name = \FrameDefault{Rifle/Carbine}, Price = {},
+            Hits = {}, Damage = {}, AP = {}, Ammo = {}, Tags = {},
+            Image = {}
+        },
+    % Then there's the list of /.store in = 
+    % This is how you translate the names in the function call into LaTeX macros
+    % You need one for every key you're going to actually use
+    Name/.store in = \FCName,
+    Price/.store in = \FCPrice,
+    Hits/.store in = \FCHits,
+    Damage/.store in = \FCDamage,
+    AP/.store in = \FCAP,
+    Ammo/.store in = \FCAmmo,
+    Tags/.store in = \FCTags,
+    Image/.store in = \FCImage,
+}
+% Define a new command named FCPlaneWeapon, with 2 arguments, the keys, and a a second one
+\newcommand{\FCPlaneWeapon}[2][]{
+    \pgfkeys{FCPlaneWeapon, default, #1}% Load the keys in the FCPlaneWeapon family, 
+    % then the default values, then the values passed in by the first argument
+
+    % Create a picture across the top of the page using \FCImage, 
+    % using the min of the width of the text, or 1/3 the page vertically to set the size
+    % Also, if the variable \FCBoxText was filled, make a box in the corner \FCBoxLoc with that text inside a table.
+    % Can remove the bit about NiceTabular to make it just a box of text.  See FCVehicle for that.
+    \phantomsection
+    \ifdefempty{\FCImage}{}{\includegraphics[width=\textwidth, keepaspectratio]{\FCImage}}
+
+    \addcontentsline{toc}{subsection}{ \FCName }
+    % Visible text.  This says Underline all of { \FCName (but huge and dark grey) and all available horizontal space and a messy bit of text after it.}
+    % So the name is on the left, and the rest of the text is pushed all the way right by hfill, and it's all underlined.  Just replace the messy bit of 
+    % text with the price.  FCPlane can have both, either, or neither of new and used prices.
+    \uline{{\huge \textcolor{DarkGray}{\FCName}}
+        \hfill
+        \huge \textcolor{MidGray}{\ifdefempty{\FCPrice}{Scrip}{\FCPrice þ}}}
+
+    \vspace{-0.2\baselineskip}
+
+    \textit{#2}
+
+    \begin{NiceTabular}{XXXXXXXX}[hvlines]
+        \Block[fill=black]{1-1}{\textcolor{white}{Hits}} & \Block{1-1}{\FCHits} & \Block[fill=black]{1-1}{\textcolor{white}{Damage}} & \Block{1-1}{\FCDamage} &
+        \Block[fill=black]{1-1}{\textcolor{white}{AP}}   & \Block{1-1}{\FCAP}   & \Block[fill=black]{1-1}{\textcolor{white}{Ammo}}   & \Block{1-1}{\FCAmmo}     \\
+        \Block[l]{1-8}{\FCTags}
+    \end{NiceTabular}
+}
+
+% Define the keys for \FCPlaybook
+% The \FrameDefalt shows when things aren't set.
+\pgfkeys{
+    % This is a "variable family"  Doesn't matter, just set to your function name.
+    /FCPlaybook/.is family, FCPlaybook,
+    default/.style =
+        {
+            Name = \FrameDefault{Worker}, SubHeader={Industrial Town}
+        },
+    % Then there's the list of /.store in = 
+    % This is how you translate the names in the function call into LaTeX macros
+    % You need one for every key you're going to actually use
+    Name/.store in = \FCName,
+    SubHeader/.store in =\FCSubHeader
+}
+\newcommand{\FCPlaybook}[2][]{
+    \pgfkeys{FCPlaybook, default, #1}% Load the keys in the FCPlaybook family, 
+    % then the default values, then the values passed in by the first argument
+
+    \newgeometry{margin=0.75in}
+    \begin{landscape}
+        \pagestyle{PlaybookStyle}
+        \renewcommand{\rightmark}{\FCName}
+        \phantomsection
+        \addcontentsline{toc}{section}{ \FCName }
+        \begin{multicols}{2}
+            \raggedcolumns
+            \noindent
+            \colorbox{black}{\parbox{\columnwidth-0.5mm}{\textcolor{white}{\Kochfont\Huge \FCName
+                        \large \hfill \FCSubHeader}}}
+            \normalsize
+            #2
+        \end{multicols}
+    \end{landscape}
+    \restoregeometry
+}
+
+\newcommand{\FCMove}[2]{
+    \parbox{\columnwidth}{
+        {\large \fauxsc{#1}}
+        \begin{mdframed}[rightline=false,bottomline=false,linecolor=black,linewidth=1pt]
+            #2
+        \end{mdframed}
+    }
+}
 
 \etocsettocstyle{}{}
 \etocsetstyle{section}
 {}
 {}
-{\textbf{\huge\etocthename\dotfill\etocpage}\par\vspace{2em}}
+{\textbf{\huge\etocname\dotfill\etocpage}\par\vspace{2em}}
 {}
+\etocsetstyle{subsection}
+{}
+{}
+{\textbf{\large\etocname\dotfill\etocpage}\par\vspace{2em}}
+{}
+
+\newcommand{\smallk}{
+    \resizebox{!}{0.8\height}{K}
+}
 
 \directlua
 {
@@ -694,6 +928,7 @@
             data =
                 {
                     ["s"] = {"$"},
+                    ["k"] = {"ú"},
                 },
         }
 }
