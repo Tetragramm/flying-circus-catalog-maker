@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{FlyingCircus}
 
-\RequirePackage[a4paper, left=0.75in, right=0.75in, top=0.25in, bottom=0.25in, headheight=38pt, includeheadfoot]{geometry}
+\RequirePackage[a4paper, margin=0.75in, top=0.5in, headheight=38pt, headsep=-12pt, footskip=24pt]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage[normalem]{ulem}
 \RequirePackage[T1]{fontenc}
@@ -286,9 +286,9 @@
             \let\cleardoublepage\clearpage
             \begin{titlepage}
                 \thispagestyle{FancyTOC}
-                \begin{center}
 
-                    \vspace{0.1\pageheight}
+                \vspace*{0.1\pageheight}
+                \begin{center}
 
                     {
                         \Kochfont\fontsize{75}{90}\selectfont
@@ -876,7 +876,7 @@
     \pgfkeys{FCPlaybook, default, #1}% Load the keys in the FCPlaybook family, 
     % then the default values, then the values passed in by the first argument
 
-    \newgeometry{margin=0.75in}
+    \newgeometry{margin=0.75in, ignoreheadfoot, headheight=12pt, headsep=24pt}
     \begin{landscape}
         \pagestyle{PlaybookStyle}
         \renewcommand{\rightmark}{\FCName}
