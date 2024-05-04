@@ -73,6 +73,12 @@
 \newfontfamily\matdes{materialdesignicons-webfont.ttf}[
     Path=./fonts/,
 ]
+
+\newfontfamily\lmrfont{Latin Modern Roman}[
+    Ligatures=TeX,SmallCapsFont={* Caps},
+    SlantedFont={* Slanted},
+]
+
 %This is the propeller symbol
 \SetPropSymbol
 
@@ -510,11 +516,11 @@
         \hfill
         \large \textcolor{MidGray}{\ifdefempty{\FCPrice}{}{\FCPrice þ New\ifdefempty{\FCUsed}{}{,}} \ifdefempty{\FCUsed}{}{\FCUsed þ Used}}}
 
-    \vspace{-0.2\baselineskip}
+    \vspace{-0.2em}
     % More text right under the line, again with hfill to pus the rest right
     \Large \textcolor{DarkGray}{\textit{``\FCNickname''}} \hfill \large \textcolor{MidGray}{\FCUpkeep þ Upkeep}
 
-    \vspace{-0.2\baselineskip}
+    \vspace{-0.2em}
     \large
     \begin{NiceTabular}{ccccc}[first-row, first-col, hvlines, rules/width=1pt]
          & Boost & Handling & Climb & Stall & Speed \\
@@ -525,26 +531,27 @@
         Vital Parts   \\
         \parbox{0.4\textwidth}{
             \centering
-            \vspace{.5\baselineskip}
+            \vspace{.5em}
         \FCVitalParts \\
             \FCCrew
-            \vspace{.5\baselineskip}
+            \vspace{.5em}
         }
     \end{NiceTabular}
     \par
-    \centering
-    \begin{NiceTabular}{c}[columns-width=0.9\textwidth,hvlines, rules/width=1pt]
-        \FCPropulsion    \\
-        \FCAerodynamics  \\
-        \FCSurvivability \\
-        \parbox{0.9\textwidth}{
-            \raggedright
-            \vspace{.5\baselineskip}
-            \FCArmament
-            \vspace{.5\baselineskip}
-        }
-    \end{NiceTabular}
-    \vspace{0.2\baselineskip}
+    \begin{center}
+        \begin{NiceTabular}{c}[columns-width=0.9\textwidth,hvlines, rules/width=1pt]
+            \FCPropulsion    \\
+            \FCAerodynamics  \\
+            \FCSurvivability \\
+            \parbox{0.9\textwidth}{
+                \raggedright
+                \vspace{.5em}
+                \FCArmament
+                \vspace{.5em}
+            }
+        \end{NiceTabular}
+    \end{center}
+    \phantom{words}
     % If you want two columns of text, do this, otherwise just 
     % \large \justify #2
     \begin{multicols}{2}
@@ -555,8 +562,7 @@
         #2
     \end{multicols}
 
-    \vspace*{\fill}
-
+    \vspace{\fill}
     \begin{center}
         \href{\FCLink}{\centering \Huge \underline{Plane Builder Link}}
     \end{center}
@@ -792,7 +798,7 @@
         \hfill
         \huge \textcolor{MidGray}{\ifdefempty{\FCPrice}{Scrip}{\FCPrice þ}}}
 
-    \vspace{-0.2\baselineskip}
+    \vspace{-0.2em}
 
     \textit{#2}
 
@@ -846,7 +852,7 @@
         \hfill
         \huge \textcolor{MidGray}{\ifdefempty{\FCPrice}{Scrip}{\FCPrice þ}}}
 
-    \vspace{-0.2\baselineskip}
+    \vspace{-0.2em}
 
     \textit{#2}
 
@@ -888,7 +894,7 @@
             \colorbox{black}{\parbox{\columnwidth-0.5mm}{\textcolor{white}{\Kochfont\Huge \FCName
                         \large \hfill \FCSubHeader}}}
             \normalsize
-            #2
+            {#2}
         \end{multicols}
     \end{landscape}
     \restoregeometry
@@ -907,17 +913,15 @@
 \etocsetstyle{section}
 {}
 {}
-{\textbf{\huge\etocname\dotfill\etocpage}\par\vspace{2em}}
+{\textbf{\huge\etocname\dotfill\etocpage}\par\vspace{1em}}
 {}
 \etocsetstyle{subsection}
 {}
 {}
-{\textbf{\large\etocname\dotfill\etocpage}\par\vspace{2em}}
+{\textbf{\hspace{2em}\large\etocname\dotfill\etocpage}\par\vspace{0.5em}}
 {}
-
-\newcommand{\smallk}{
-    \resizebox{!}{0.8\height}{K}
-}
+%No number for sections or subsections
+\setcounter{secnumdepth}{0}
 
 \directlua
 {
